@@ -15,9 +15,12 @@ public interface ApiDamageRefactorI {
 			NotValidDamageException, InstanceNotFoundException, SystemException;
 
 	void apiDamageValidationUpdates(Damage damage1, String newName,
-			long increment) throws InstanceNotFoundException, SystemException;
+			long increment) throws InstanceNotFoundException, SystemException, InterruptedException;
 
-	void apiDamageReadOperations(Damage damage)
+	void apiDamageReadOperations(long damage)
+			throws NotValidDamageException, InstanceNotFoundException;
+
+	void apiDamageReadOperations(Damage damage1)
 			throws NotValidDamageException, InstanceNotFoundException;
 
 

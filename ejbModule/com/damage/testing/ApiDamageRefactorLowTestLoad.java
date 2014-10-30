@@ -69,21 +69,17 @@ public class ApiDamageRefactorLowTestLoad extends AbstractJavaSamplerClient {
 			damageDao = (DamageDaoN) initialContext
 					.lookup("ejb:/Damage//DamageDaoNBean!com.damage.model.DamageDaoN");
 		} catch (NamingException e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 		try {
 			dList = initDamages();
 		} catch (InstanceNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		result.sampleStart();
 		try {
-			// executionTime = apiDamageRefactor.apiDamageValidationService(
-			// dList.get(0), dList.get(1), newName, INCREMENT);
 			String newName = "name" + (System.currentTimeMillis()%100000000);
-			executionTime = apiDamageRefactor.apiDamageValidationService(dList.get(0),dList.get(1), newName, INCREMENT);
+			executionTime = apiDamageRefactor.apiDamageValidationService(dList.get(0),dList.get(0), newName, INCREMENT);
 		} catch (InterruptedException | NotValidDamageException
 				| InstanceNotFoundException | SystemException e) {
 			e.printStackTrace();
@@ -96,17 +92,10 @@ public class ApiDamageRefactorLowTestLoad extends AbstractJavaSamplerClient {
 	}
 
 	public List<Damage> initDamages() throws InstanceNotFoundException {
-//		damage1 = validationService.createNewDamage("New Client",
-//				Calendar.getInstance(), "description1", 1, "location",
-//				"nameDamage", 100, 200);
-		damage2 = validationService.createNewDamage("New Client",
-				Calendar.getInstance(), "description1", 1, "location",
-				"nameDamage", 100, 200);
+
 		List<Damage> dList = new ArrayList<Damage>();
-		// dList.add(damage1);
-		// dList.add(damage2);
 		dList.add(damageDao.find(7));
-		dList.add(damageDao.find(damage2));
+//		dList.add(damageDao.find(damage2));
 		return dList;
 	}
 

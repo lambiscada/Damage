@@ -22,4 +22,9 @@ public interface ApiDamageI {
 	void apiDamageReadOperations(long damage) throws NotValidDamageException,
 			InstanceNotFoundException, InterruptedException;
 
+
+	void apiDamageReadOperations(Damage damage1)
+			throws NotValidDamageException, InstanceNotFoundException,
+			InterruptedException;
+
 }

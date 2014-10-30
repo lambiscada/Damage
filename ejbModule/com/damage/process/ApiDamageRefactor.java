@@ -5,6 +5,8 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.transaction.SystemException;
 import javax.transaction.TransactionSynchronizationRegistry;
 
@@ -18,9 +20,10 @@ import com.damage.model.DamageDaoN;
  * Session Bean implementation class ApiDamageRefactor
  */
 @Stateless
+@TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.SUPPORTS)
 public class ApiDamageRefactor implements ApiDamageRefactorI {
-	private final long SLEEP_TIME = 400;
+	private final long SLEEP_TIME = 4000;
 	@EJB
 	private DamageDaoN damageDao;
 	@EJB
@@ -40,42 +43,59 @@ public class ApiDamageRefactor implements ApiDamageRefactorI {
 			String newName, long increment) throws InterruptedException,
 			NotValidDamageException, InstanceNotFoundException, SystemException {
 		/* READ operations outside of the transaction scope */
-//		validationService.compareDamageLevel(damage1, damage2); // READ
 		validationService.verifyInitValue(damage1); // READ Operation
 		validationService.verifyInitValue(damage1); // READ Operation
 		validationService.verifyInitValue(damage1); // READ	
-		validationService.verifyInitValue(damage1); // READ Operation
-		validationService.verifyInitValue(damage1); // READ Operatio
+	
 //		System.out.println("Dentro al inicio:  "+tsr.getTransactionStatus());
 		Thread.sleep(SLEEP_TIME);
 //		
-		long startTime = System.currentTimeMillis();
-		apiDamageRefactor.apiDamageValidationUpdates(damage2, newName, increment);
-		long stopTime = System.currentTimeMillis();
-		long executionTime = (stopTime - startTime);
-		return executionTime;
-//		return 0;
+//		long startTime = System.currentTimeMillis();
+		apiDamageRefactor.apiDamageValidationUpdates(damage1, newName, increment);
+//		long stopTime = System.currentTimeMillis();
+//		long executionTime = (stopTime - startTime);
+//		return executionTime;
+		return 0;
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void apiDamageValidationUpdates(Damage damage, String newName,
-			long increment) throws InstanceNotFoundException, SystemException {
+			long increment) throws InstanceNotFoundException, SystemException, InterruptedException {
 		/* High Concurrency transaction strategy */
 		/* Wrap updates within a transaccion */
-//		System.out.println("Dentro al inicio:  "+tsr.getTransactionStatus());
+		
+//	System.out.println("Dentro al inicio:  "+tsr.getTransactionStatus());
 		validationService.setNewNames(damage, newName); // WRITE Operation
-		//validationService.updateDepositValue(damage1.getIdDamage(), increment); // WRITE
+		damageDao.flush();
+		
+		newName = "name" + (System.currentTimeMillis()%100000000);	
+		validationService.setNewNames(damage, newName); // WRITE Operation
+		damageDao.flush();
+		
+		newName = "name" + (System.currentTimeMillis()%100000000);
+		validationService.setNewNames(damage, newName); // WRITE Operation
+		Thread.sleep(4000);
 		damageDao.flush();
 	}
 	
-	/*With this method we can proof read some object  while another thread is executing  the refactor version of the main method*/
+	/*With this method we can proof read some object  while another thread is executing the main method to be proof*/
 	@Override
-	public void apiDamageReadOperations(Damage damage) throws NotValidDamageException, InstanceNotFoundException  {
-		
-		validationService.verifyInitValue(damage);
-		validationService.verifyInitValue(damage);
-		validationService.verifyInitValue(damage);
+	public void apiDamageReadOperations(long damage) throws NotValidDamageException, InstanceNotFoundException  {
+
+		Damage damage1 = damageDao.find(damage);
+		validationService.verifyInitValue(damage1);
+		validationService.verifyInitValue(damage1);
+		validationService.verifyInitValue(damage1);
 			
 	}
+	
+	/*With this method we can proof read some object  while another thread is executing the main method to be proof*/
+	@Override
+	public void apiDamageReadOperations(Damage damage1) throws NotValidDamageException, InstanceNotFoundException  {
 
+		validationService.verifyInitValue(damage1);
+		validationService.verifyInitValue(damage1);
+		validationService.verifyInitValue(damage1);
+			
+	}
 }

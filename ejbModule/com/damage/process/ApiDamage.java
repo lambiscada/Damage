@@ -20,9 +20,9 @@ import com.damage.model.DamageDaoN;
  */
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
-@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class ApiDamage implements ApiDamageI {
-	private final long SLEEP_TIME = 60000;
+	private final long SLEEP_TIME = 4000;
 	@EJB
 	private DamageDaoN damageDao;
 	@EJB
@@ -36,52 +36,29 @@ public class ApiDamage implements ApiDamageI {
 	}
 
 	@Override
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void apiDamageValidationService(Damage damage1, Damage damage2,
 			String newName, long increment) throws InterruptedException,
 			NotValidDamageException, InstanceNotFoundException {
-//		validationService.verifDates(damage1); // READ Operation
 		validationService.setNewNames(damage1, newName); // WRITE Operation	
-		newName = "name" + (System.currentTimeMillis()%100000000);
 		validationService.verifyInitValue(damage1); // READ
+		damageDao.flush();
 		
-		validationService.setNewNames(damage1, newName); // WRITE Operation	
 		newName = "name" + (System.currentTimeMillis()%100000000);
+		validationService.setNewNames(damage1, newName); // WRITE Operation	
 		validationService.verifyInitValue(damage1); // READ	
+		damageDao.flush();
 		
-		validationService.setNewNames(damage1, newName); // WRITE Operation	
 		newName = "name" + (System.currentTimeMillis()%100000000);
+		validationService.setNewNames(damage1, newName); // WRITE Operation	
 		validationService.verifyInitValue(damage1); // READ
 		
-//		System.out.println("metodo2 soy un READ");
-//		validationService.compareDamageLevel(damage1, damage2); // READ
-
-//		System.out.println("metodo3 soy un WRITE");
-		//validationService.updateDepositValue(damage1, increment); // WRITE
-//		System.out.println("metodo4 soy un READ ");
-		
-
-//		System.out.println("metodo5 soy un READ");
-
 		Thread.sleep(SLEEP_TIME);
-//		System.out.println("metodo6 soy el temindo FLUSH");
 		damageDao.flush();
 	}
 	
-	/*With this method we can proof read some object  while another thread is executing the main method to be proof*/
-	@Override
-	public void apiDamageReadOperations(long damage) throws NotValidDamageException, InstanceNotFoundException, InterruptedException  {
-		String newName = "name" + (System.currentTimeMillis()%100000000);
-		//validationService.setNewNames(damage, newName); // WRITE Operation
-		Damage damage1 = damageDao.find(damage);
-		validationService.verifyInitValue(damage);
-		validationService.verifyInitValue(damage);
-		validationService.verifyInitValue(damage);
-			
-	}
+	
 
 	@Override
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void apiDamageValidationService(long damage, long damage2,
 			String newName, long increment) throws InterruptedException,
 			NotValidDamageException, InstanceNotFoundException {
@@ -94,22 +71,6 @@ public class ApiDamage implements ApiDamageI {
 		
 		validationService.setNewNames(damage1, newName); // WRITE Operation	
 		newName = "name" + (System.currentTimeMillis()%100000000);
-		validationService.verifyInitValue(damage1); // READ	
-		damageDao.flush();
-		
-		validationService.setNewNames(damage1, newName); // WRITE Operation	
-		newName = "name" + (System.currentTimeMillis()%100000000);
-		validationService.verifyInitValue(damage1); // READ
-		damageDao.flush();
-		
-		
-		validationService.setNewNames(damage1, newName); // WRITE Operation	
-		newName = "name" + (System.currentTimeMillis()%100000000);
-		validationService.verifyInitValue(damage1); // READ
-		damageDao.flush();
-		
-		validationService.setNewNames(damage1, newName); // WRITE Operation	
-		newName = "name" + (System.currentTimeMillis()%100000000);
 		validationService.verifyInitValue(damage1); // READ
 		damageDao.flush();
 		
@@ -120,6 +81,26 @@ public class ApiDamage implements ApiDamageI {
 
 		Thread.sleep(SLEEP_TIME);
 		damageDao.flush();
+	}
+	
+	/*With this method we can proof read some object  while another thread is executing the main method to be proof*/
+	@Override
+	public void apiDamageReadOperations(long damage) throws NotValidDamageException, InstanceNotFoundException, InterruptedException  {
+		Damage damage1 = damageDao.find(damage);
+		validationService.verifyInitValue(damage1);
+		validationService.verifyInitValue(damage1);
+		validationService.verifyInitValue(damage1);
+			
+	}
+	
+	/*With this method we can proof read some object  while another thread is executing the main method to be proof*/
+	@Override
+	public void apiDamageReadOperations(Damage damage1) throws NotValidDamageException, InstanceNotFoundException, InterruptedException  {
+
+		validationService.verifyInitValue(damage1);
+		validationService.verifyInitValue(damage1);
+		validationService.verifyInitValue(damage1);
+			
 	}
 
 }

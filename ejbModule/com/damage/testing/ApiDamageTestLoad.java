@@ -102,15 +102,7 @@ public class ApiDamageTestLoad extends AbstractJavaSamplerClient {
 	}
 
 	public List<Damage> initDamages() throws InstanceNotFoundException {
-//		damage1 = validationService.createNewDamage("New Client",
-//				Calendar.getInstance(), "description1", 1, "location",
-//				"nameDamage", 100, 200);
-//		damage2 = validationService.createNewDamage("New Client",
-//				Calendar.getInstance(), "description1", 1, "location",
-//				"nameDamage", 100, 200);
 		List<Damage> dList = new ArrayList<Damage>();
-//		dList.add(damage1);
-//		dList.add(damage2);
 		dList.add(damageDao.find(7));
 //		dList.add(damageDao.find(damage2));
 		return dList;
