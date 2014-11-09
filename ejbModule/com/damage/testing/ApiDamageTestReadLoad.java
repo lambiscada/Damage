@@ -1,44 +1,32 @@
 package com.damage.testing;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.transaction.SystemException;
 
-import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.protocol.java.sampler.AbstractJavaSamplerClient;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
-import org.apache.jmeter.threads.JMeterContext;
-import org.apache.jmeter.threads.JMeterThread;
 import org.apache.jmeter.samplers.SampleResult;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 import com.damage.damageService.ValidationService;
 import com.damage.exception.InstanceNotFoundException;
 import com.damage.exception.NotValidDamageException;
-import com.damage.model.Damage;
 import com.damage.model.DamageDaoN;
 import com.damage.process.ApiDamageI;
-import com.damage.process.ApiDamageRefactorI;
 
 public class ApiDamageTestReadLoad extends AbstractJavaSamplerClient {
 	private static Context initialContext;
 	private ApiDamageI apiDamage;
 	private long damage1, damage2;
-	private  ValidationService validationService;
+	private ValidationService validationService;
 	private final long INCREMENT = 200;
 	private DamageDaoN damageDao;
 	private List<Long> dList;
 
-	
-	
 	public ApiDamageTestReadLoad() {
 		super();
 	}
@@ -85,11 +73,9 @@ public class ApiDamageTestReadLoad extends AbstractJavaSamplerClient {
 		result.sampleStart();
 		try {
 			apiDamage.apiDamageReadOperations(dList.get(0));
-		} catch (NotValidDamageException
-				| InstanceNotFoundException e) {
+		} catch (NotValidDamageException | InstanceNotFoundException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

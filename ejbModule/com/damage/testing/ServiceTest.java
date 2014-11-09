@@ -60,7 +60,6 @@ public class ServiceTest {
 	@After
 	public void cleanDb() throws InstanceNotFoundException {
 		for (int i = 0; i < dList.size(); i++) {
-			System.out.println("soy la lista  "+i);
 			validationService.removeDamage(damageDao.find(dList.get(i)));
 		}
 	}

@@ -29,7 +29,8 @@ public class ApiDamageRefactorLowTestLoad extends AbstractJavaSamplerClient {
 	private long executionTime;
 	private ValidationService validationService;
 	private DamageDaoN damageDao;
-	private List<Damage> dList;
+//	private List<Damage> dList;
+	private List<Long> dList;
 	private final long INCREMENT = 200;
 
 	public ApiDamageRefactorLowTestLoad() {
@@ -78,8 +79,9 @@ public class ApiDamageRefactorLowTestLoad extends AbstractJavaSamplerClient {
 		}
 		result.sampleStart();
 		try {
-			String newName = "name" + (System.currentTimeMillis()%100000000);
-			executionTime = apiDamageRefactor.apiDamageValidationService(dList.get(0),dList.get(0), newName, INCREMENT);
+			String newName = "name" + (System.currentTimeMillis() % 100000000);
+			executionTime = apiDamageRefactor.apiDamageValidationService(
+					dList.get(0), dList.get(0), newName, INCREMENT);
 		} catch (InterruptedException | NotValidDamageException
 				| InstanceNotFoundException | SystemException e) {
 			e.printStackTrace();
@@ -91,11 +93,14 @@ public class ApiDamageRefactorLowTestLoad extends AbstractJavaSamplerClient {
 
 	}
 
-	public List<Damage> initDamages() throws InstanceNotFoundException {
-
-		List<Damage> dList = new ArrayList<Damage>();
-		dList.add(damageDao.find(7));
-//		dList.add(damageDao.find(damage2));
+//	 public List<Damage> initDamages() throws InstanceNotFoundException {
+//	 List<Damage> dList = new ArrayList<Damage>();
+//	 dList.add(damageDao.find(7));
+//	 return dList;
+//	 }
+	public List<Long> initDamages() throws InstanceNotFoundException {
+		List<Long> dList = new ArrayList<Long>();
+		dList.add((long) 7);
 		return dList;
 	}
 

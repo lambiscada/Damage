@@ -39,4 +39,7 @@ public interface ValidationService {
 
 	void removeDamage(Damage damage) throws InstanceNotFoundException;
 
+	boolean validationNames(Damage damage) throws NotValidDamageException,
+			InstanceNotFoundException;
+
 }

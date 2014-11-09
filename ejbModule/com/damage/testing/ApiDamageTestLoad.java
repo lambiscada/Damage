@@ -35,8 +35,8 @@ public class ApiDamageTestLoad extends AbstractJavaSamplerClient {
 	private  ValidationService validationService;
 	private final long INCREMENT = 200;
 	private DamageDaoN damageDao;
-	private List<Damage> dList;
-
+//	private List<Damage> dList;
+	private List<Long> dList;
 	
 	
 	public ApiDamageTestLoad() {
@@ -75,19 +75,15 @@ public class ApiDamageTestLoad extends AbstractJavaSamplerClient {
 			damageDao = (DamageDaoN) initialContext
 					.lookup("ejb:/Damage//DamageDaoNBean!com.damage.model.DamageDaoN");
 		} catch (NamingException e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 		try {
 			dList = initDamages();
 		} catch (InstanceNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		result.sampleStart();
 		try {
-			// executionTime = apiDamageRefactor.apiDamageValidationService(
-			// dList.get(0), dList.get(1), newName, INCREMENT);
 			String newName = "name" + (System.currentTimeMillis()%100000000);
 			apiDamage.apiDamageValidationService(dList.get(0),dList.get(0), newName, INCREMENT);
 		} catch (InterruptedException | NotValidDamageException
@@ -101,10 +97,14 @@ public class ApiDamageTestLoad extends AbstractJavaSamplerClient {
 
 	}
 
-	public List<Damage> initDamages() throws InstanceNotFoundException {
-		List<Damage> dList = new ArrayList<Damage>();
-		dList.add(damageDao.find(7));
-//		dList.add(damageDao.find(damage2));
+//	public List<Damage> initDamages() throws InstanceNotFoundException {
+//		List<Damage> dList = new ArrayList<Damage>();
+//		dList.add(damageDao.find(7));
+//		return dList;
+//	}
+	public List<Long> initDamages() throws InstanceNotFoundException {
+		List<Long> dList = new ArrayList<Long>();
+		dList.add((long) 7);
 		return dList;
 	}
 }

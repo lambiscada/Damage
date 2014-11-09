@@ -27,36 +27,31 @@ public class DamageDaoNBean implements DamageDaoN {
 
 	@Override
 	public Damage save(Damage damage) {				//SQL-insert
-//		System.out.println("Hola soy tu metodo CREATE y te voy a mostrar qué hago: ");
 		em.persist(damage);
 		return em.find(Damage.class, damage.getIdDamage());
 	}
 
 	@Override
-	public void update(Damage damage) {
-//		System.out.println("Hola soy tu metodo UPDATE y te voy a mostrar qué hago: ");		
+	public void update(Damage damage) {	
 		em.merge(damage);
 	}
 
 	@Override
 	public void remove(Damage damage) throws InstanceNotFoundException {
-//		System.out.println("Hola soy tu metodo REMOVE y te voy a mostrar qué hago: ");
 		em.remove(em.contains(damage) ? damage : em.merge(damage));
-		// em.remove(damage);
 
 	}
 
 	@Override
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public Damage find(long idDamage) throws InstanceNotFoundException {
-//		System.out.println("Hola soy tu metodo FIND y te voy a mostrar qué hago: ");
 		return em.find(Damage.class, idDamage);
 	}
 
 	@Override
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void flush() {
-//		System.out.println("Hola soy tu metodo FLUSH y te voy a mostrar qué hago: ");
+//		System.out.println(em.getFlushMode());
 		em.flush();
 
 	}

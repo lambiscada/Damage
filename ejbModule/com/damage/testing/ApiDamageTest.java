@@ -24,30 +24,28 @@ import com.damage.process.ApiDamageI;
 
 public class ApiDamageTest {
 	private static Context initialContext;
-	private  ApiDamageI apiDamage;
+	private ApiDamageI apiDamage;
 	private long damage1, damage2;
-	private  ValidationService validationService;
-	private  DamageDaoN damageDao;
+	private ValidationService validationService;
+	private DamageDaoN damageDao;
 
 	private final long INCREMENT = 200;
-	
 
 	public ApiDamageTest() {
-		
+
 	}
-		
+
 	@BeforeClass
 	public static void initContext() throws Exception {
 		Properties properties = new Properties();
 		properties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
 		initialContext = new InitialContext(properties);
-		
+
 	}
 
 	@Before
 	public void setup() throws NamingException {
-			
-		
+
 		apiDamage = (ApiDamageI) initialContext
 				.lookup("ejb:/Damage//ApiDamage!com.damage.process.ApiDamageI");
 		validationService = (ValidationService) initialContext
@@ -56,38 +54,32 @@ public class ApiDamageTest {
 				.lookup("ejb:/Damage//DamageDaoNBean!com.damage.model.DamageDaoN");
 	}
 
-	
-	
 	@Test
 	public void testApiDamage() throws NamingException, InterruptedException,
 			NotValidDamageException, InstanceNotFoundException {
 		List<Long> dList = initDamages();
-		String newName = "name" + (System.currentTimeMillis()%100000000);
+		String newName = "name" + (System.currentTimeMillis() % 100000000);
 		long startTime = System.currentTimeMillis();
-	
+
 		apiDamage.apiDamageValidationService(dList.get(0), dList.get(0),
 				newName, INCREMENT);
 		long stopTime = System.currentTimeMillis();
 		long executionTime = (stopTime - startTime);
-//		 System.out.println("ApiDamageValidationService execution time:  "
-//		 + executionTime + "ms");
-//		
+		 System.out.println("ApiDamageValidationService execution time:  "
+		 + executionTime + "ms");
+		
 
 	}
 
+//	 public List<Damage> initDamages() throws InstanceNotFoundException {
+//	 List<Damage> dList = new ArrayList<Damage>();
+//	 dList.add(damageDao.find(7));
+//	 return dList;
+//	 }
+	
 	public List<Long> initDamages() throws InstanceNotFoundException {
-//		damage1 = validationService.createNewDamage("New Client",
-//				Calendar.getInstance(), "description1", 1, "location",
-//				"nameDamage", 100, 200);
-//		damage2 = validationService.createNewDamage("New Client",
-//				Calendar.getInstance(), "description1", 1, "location",
-//				"nameDamage", 100, 200);
 		List<Long> dList = new ArrayList<Long>();
-//		dList.add(damage1);
-//		dList.add(damage2);
-//		dList.add(damageDao.find(7));
 		dList.add((long) 7);
-		//dList.add(damageDao.find(8));
 		return dList;
 	}
 }
