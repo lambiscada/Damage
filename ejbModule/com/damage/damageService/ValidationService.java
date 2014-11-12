@@ -13,21 +13,32 @@ public interface ValidationService {
 
 	long verifyInitValue(Damage damage) throws NotValidDamageException,
 			InstanceNotFoundException;
+
 	long verifyInitValue(long damageId) throws NotValidDamageException,
-	InstanceNotFoundException;
+			InstanceNotFoundException;
 
 	boolean validationNames(long damageId) throws NotValidDamageException,
 			InstanceNotFoundException;
 
-	void setNewNames(Damage damage, String newName) throws InstanceNotFoundException;
-	
-	void setNewNames(long damageId, String newName) throws InstanceNotFoundException;
+	boolean validationNames(Damage damage) throws NotValidDamageException,
+			InstanceNotFoundException;
 
-	boolean verifDates(long damageId) throws NotValidDamageException, InstanceNotFoundException;
+	void setNewNames(Damage damage, String newName)
+			throws InstanceNotFoundException;
 
-	Damage compareDamageLevel(long damage1Id, long damage2Id) throws InstanceNotFoundException;
+	void setNewNames(long damageId, String newName)
+			throws InstanceNotFoundException;
+
+	boolean verifDates(long damageId) throws NotValidDamageException,
+			InstanceNotFoundException;
+
+	Damage compareDamageLevel(long damage1Id, long damage2Id)
+			throws InstanceNotFoundException;
 
 	void updateDepositValue(long damageId, long increment)
+			throws InstanceNotFoundException;
+
+	void updateDepositValue(Damage damage, long increment)
 			throws InstanceNotFoundException;
 
 	boolean removeRepeatNames(Damage d1, Damage d2)
@@ -38,8 +49,5 @@ public interface ValidationService {
 			long valueIni, long depositIni);
 
 	void removeDamage(Damage damage) throws InstanceNotFoundException;
-
-	boolean validationNames(Damage damage) throws NotValidDamageException,
-			InstanceNotFoundException;
 
 }

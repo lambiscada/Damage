@@ -43,7 +43,7 @@ public class ApiDamage implements ApiDamageI {
 			String newName, long increment) throws InterruptedException,
 			NotValidDamageException, InstanceNotFoundException {
 		validationService.setNewNames(damage1, newName); // WRITE Operation
-		validationService.updateDepositValue(damage1.getIdDamage(), increment); // WRITE
+		validationService.updateDepositValue(damage1, increment); // WRITE
 		damageDao.flush();
 		Thread.sleep(SLEEP_TIME);
 		

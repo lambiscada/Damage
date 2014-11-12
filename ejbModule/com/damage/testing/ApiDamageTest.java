@@ -65,8 +65,8 @@ public class ApiDamageTest {
 				newName, INCREMENT);
 		long stopTime = System.currentTimeMillis();
 		long executionTime = (stopTime - startTime);
-		 System.out.println("ApiDamageValidationService execution time:  "
-		 + executionTime + "ms");
+//		 System.out.println("ApiDamageValidationService execution time:  "
+//		 + executionTime + "ms");
 		
 
 	}

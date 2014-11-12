@@ -27,16 +27,4 @@
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>ejbModule/sql/CreateDataDamage.sql</name>
-			<type>1</type>
-			<location>/home/maria/Thesis/diagrams/CreateDataDamage.sql</location>
-		</link>
-		<link>
-			<name>ejbModule/sql/CreateTablesDamage.sql</name>
-			<type>1</type>
-			<location>/home/maria/Thesis/diagrams/CreateTablesDamage.sql</location>
-		</link>
-	</linkedResources>
 </projectDescription>

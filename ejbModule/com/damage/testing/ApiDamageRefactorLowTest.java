@@ -65,10 +65,10 @@ public class ApiDamageRefactorLowTest {
 				newName, INCREMENT);
 		long stopTime = System.currentTimeMillis();
 		long executionTime = (stopTime - startTime);
-		 System.out.println("ApiDamageValidationService execution time:  "
-		 + executionTime + "ms");
-		
-		System.out.println("ejecucion:  "+ex);
+//		 System.out.println("ApiDamageValidationService execution time:  "
+//		 + executionTime + "ms");
+//		
+//		System.out.println("ejecucion:  "+ex);
 
 	}
 
