@@ -8,6 +8,10 @@ import java.util.Properties;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 
 import org.junit.Before;
@@ -61,8 +65,15 @@ public class ApiDamageRefactorLowTest {
 		List<Long> dList = initDamages();
 		String newName = "name" + (System.currentTimeMillis()%100000000);
 		long startTime = System.currentTimeMillis();
-		long ex = apiDamageRefactor.apiDamageValidationService(dList.get(0), dList.get(0),
-				newName, INCREMENT);
+		try {
+			long ex = apiDamageRefactor.apiDamageValidationService(dList.get(0), dList.get(0),
+					newName, INCREMENT);
+		} catch (SecurityException | IllegalStateException
+				| NotSupportedException | RollbackException
+				| HeuristicMixedException | HeuristicRollbackException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		long stopTime = System.currentTimeMillis();
 		long executionTime = (stopTime - startTime);
 //		 System.out.println("ApiDamageValidationService execution time:  "

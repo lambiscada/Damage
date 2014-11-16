@@ -8,6 +8,10 @@ import java.util.Properties;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 
 import org.apache.jmeter.config.Arguments;
@@ -80,8 +84,15 @@ public class ApiDamageRefactorLowTestLoad extends AbstractJavaSamplerClient {
 		result.sampleStart();
 		try {
 			String newName = "name" + (System.currentTimeMillis() % 100000000);
-			executionTime = apiDamageRefactor.apiDamageValidationService(
-					dList.get(0), dList.get(0), newName, INCREMENT);
+			try {
+				executionTime = apiDamageRefactor.apiDamageValidationService(
+						dList.get(0), dList.get(0), newName, INCREMENT);
+			} catch (SecurityException | IllegalStateException
+					| NotSupportedException | RollbackException
+					| HeuristicMixedException | HeuristicRollbackException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} catch (InterruptedException | NotValidDamageException
 				| InstanceNotFoundException | SystemException e) {
 			e.printStackTrace();
