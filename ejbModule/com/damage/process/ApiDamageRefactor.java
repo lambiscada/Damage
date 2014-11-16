@@ -46,8 +46,8 @@ public class ApiDamageRefactor implements ApiDamageRefactorI {
 		/* READ operations outside of the transaction scope */
 		validationService.verifyInitValue(damage1); // READ
 		validationService.validationNames(damage1); // READ								
-		validationService.validationNames(damage1); // READ
-		validationService.verifyInitValue(damage1); // READ
+		validationService.verifDates(damage1); //READ
+		validationService.compareDamageLevel(damage1, damage1);
 		Thread.sleep(SLEEP_TIME_READ);
 		
 		damageDao.flush();
@@ -67,8 +67,8 @@ public class ApiDamageRefactor implements ApiDamageRefactorI {
 		
 		validationService.verifyInitValue(damage); // READ
 		validationService.validationNames(damage); // READ								
-		validationService.validationNames(damage); // READ
-		validationService.verifyInitValue(damage); // READ
+		validationService.verifDates(damage); //READ
+		validationService.compareDamageLevel(damage, damage);
 		Thread.sleep(SLEEP_TIME_READ);
 		
 		damageDao.flush();
@@ -80,7 +80,7 @@ public class ApiDamageRefactor implements ApiDamageRefactorI {
 //		return 0;
 	}
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void apiDamageValidationUpdates(long damage, String newName,
 			long increment) throws InstanceNotFoundException, SystemException, InterruptedException {
 		/* High Concurrency transaction strategy */

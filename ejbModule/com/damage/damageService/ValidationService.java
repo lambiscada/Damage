@@ -50,4 +50,10 @@ public interface ValidationService {
 
 	void removeDamage(Damage damage) throws InstanceNotFoundException;
 
+	boolean verifDates(Damage damage) throws NotValidDamageException,
+			InstanceNotFoundException;
+
+	Damage compareDamageLevel(Damage damage1, Damage damage2)
+			throws InstanceNotFoundException;
+
 }

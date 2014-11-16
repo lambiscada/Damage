@@ -84,10 +84,19 @@ public class ValidationServiceBean implements ValidationService {
 
 	}
 	@Override
-	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+//	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public boolean verifDates(long damageId) throws NotValidDamageException, InstanceNotFoundException {			//SQL-SELECT 
 		Calendar currentDate = Calendar.getInstance();
 		Damage damage = damageDao.find(damageId);
+		if (damage.getDateAct().before(currentDate))
+			return true;
+		else
+			throw new NotValidDamageException(damage.getIdDamage());
+	}
+	@Override
+//	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+	public boolean verifDates(Damage damage) throws NotValidDamageException, InstanceNotFoundException {			//SQL-SELECT 
+		Calendar currentDate = Calendar.getInstance();
 		if (damage.getDateAct().before(currentDate))
 			return true;
 		else
@@ -105,6 +114,17 @@ public class ValidationServiceBean implements ValidationService {
 			return d1;
 		else
 			return d2;
+	}
+	
+	@Override
+//	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+	public Damage compareDamageLevel(Damage damage1, Damage damage2) throws InstanceNotFoundException { 
+		int level1 = damage1.getLevelDamage();
+		int level2 = damage2.getLevelDamage();
+		if (level1 >= level2)
+			return damage1;
+		else
+			return damage2;
 	}
 
 	@Override
