@@ -38,24 +38,6 @@ public class ApiDamage implements ApiDamageI {
 
 	}
 
-	@Override
-	public void apiDamageValidationService(Damage damage1, Damage damage2,
-			String newName, long increment) throws InterruptedException,
-			NotValidDamageException, InstanceNotFoundException {
-		validationService.setNewNames(damage1, newName); // WRITE Operation
-		validationService.updateDepositValue(damage1, increment); // WRITE
-		damageDao.flush();
-		Thread.sleep(SLEEP_TIME);
-		
-		validationService.verifyInitValue(damage1); // READ
-		validationService.validationNames(damage1); // READ	
-		validationService.verifDates(damage1); //READ
-		validationService.compareDamageLevel(damage1, damage1);
-		Thread.sleep(SLEEP_TIME_READ);
-		
-		damageDao.flush();
-		
-	}
 
 	@Override
 	public void apiDamageValidationService(long damage, long damage2,
@@ -94,12 +76,5 @@ public class ApiDamage implements ApiDamageI {
 	 * With this method we can proof read some object while another thread is
 	 * executing the main method to be proof
 	 */
-	@Override
-	public void apiDamageReadOperations(Damage damage1)
-			throws NotValidDamageException, InstanceNotFoundException,
-			InterruptedException {
-
-		validationService.verifyInitValue(damage1);
-	}
 
 }

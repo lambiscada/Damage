@@ -38,47 +38,35 @@ public class ApiDamageRefactor implements ApiDamageRefactorI {
 	public ApiDamageRefactor() {
 
 	}
+	
+	@Override
+	public long apiDamageValidationService(long damage1, long damage2,
+			String newName, long increment) throws InterruptedException,
+			NotValidDamageException, InstanceNotFoundException, SystemException {
+	
+		apiDamageRefactor.apiDamageValidationServiceRead(damage1,damage2,newName,increment);		
+		long startTime = System.currentTimeMillis();
+		apiDamageRefactor.apiDamageValidationUpdates(damage1, newName, increment);
+		long stopTime = System.currentTimeMillis();
+		long executionTime = (stopTime - startTime);
+		return executionTime;
+//		return 0;
+	}
 
 	@Override
-	public long apiDamageValidationService(Damage damage1, Damage damage2,
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public void apiDamageValidationServiceRead(long damage1, long damage2,
 			String newName, long increment) throws InterruptedException,
 			NotValidDamageException, InstanceNotFoundException, SystemException {
 		/* READ operations outside of the transaction scope */
 		validationService.verifyInitValue(damage1); // READ
 		validationService.validationNames(damage1); // READ								
 		validationService.verifDates(damage1); //READ
-		validationService.compareDamageLevel(damage1, damage1);
+		validationService.compareDamageLevel(damage1, damage1); //READ
 		Thread.sleep(SLEEP_TIME_READ);
 		
-		damageDao.flush();
-		long startTime = System.currentTimeMillis();
-		apiDamageRefactor.apiDamageValidationUpdates(damage1.getIdDamage(), newName, increment);
-		long stopTime = System.currentTimeMillis();
-		long executionTime = (stopTime - startTime);
-		return executionTime;
-//		return 0;
 	}
 	
-	@Override
-	public long apiDamageValidationService(long damage, long damage2,
-			String newName, long increment) throws InterruptedException,
-			NotValidDamageException, InstanceNotFoundException, SystemException {
-		/* READ operations outside of the transaction scope */
-		
-		validationService.verifyInitValue(damage); // READ
-		validationService.validationNames(damage); // READ								
-		validationService.verifDates(damage); //READ
-		validationService.compareDamageLevel(damage, damage);
-		Thread.sleep(SLEEP_TIME_READ);
-		
-		damageDao.flush();
-		long startTime = System.currentTimeMillis();
-		apiDamageRefactor.apiDamageValidationUpdates(damage, newName, increment);
-		long stopTime = System.currentTimeMillis();
-		long executionTime = (stopTime - startTime);
-		return executionTime;
-//		return 0;
-	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void apiDamageValidationUpdates(long damage, String newName,
@@ -100,14 +88,6 @@ public class ApiDamageRefactor implements ApiDamageRefactorI {
 	public void apiDamageReadOperations(long damage) throws NotValidDamageException, InstanceNotFoundException, InterruptedException  {
 
 		Damage damage1 = damageDao.find(damage);
-		validationService.verifyInitValue(damage1);
-			
-	}
-	
-	/*With this method we can proof read some object  while another thread is executing the main method to be proof*/
-	@Override
-	public void apiDamageReadOperations(Damage damage1) throws NotValidDamageException, InstanceNotFoundException, InterruptedException  {
-
 		validationService.verifyInitValue(damage1);
 			
 	}

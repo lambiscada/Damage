@@ -57,7 +57,7 @@ public class ApiDamageTest {
 	@Test
 	public void testApiDamage() throws NamingException, InterruptedException,
 			NotValidDamageException, InstanceNotFoundException {
-		List<Damage> dList = initDamages();
+		List<Long> dList = initDamages();
 		String newName = "name" + (System.currentTimeMillis() % 100000000);
 		long startTime = System.currentTimeMillis();
 
@@ -71,15 +71,15 @@ public class ApiDamageTest {
 
 	}
 
-	 public List<Damage> initDamages() throws InstanceNotFoundException {
-	 List<Damage> dList = new ArrayList<Damage>();
-	 dList.add(damageDao.find(7));
-	 return dList;
-	 }
+//	 public List<Damage> initDamages() throws InstanceNotFoundException {
+//	 List<Damage> dList = new ArrayList<Damage>();
+//	 dList.add(damageDao.find(7));
+//	 return dList;
+//	 }
 	
-//	public List<Long> initDamages() throws InstanceNotFoundException {
-//		List<Long> dList = new ArrayList<Long>();
-//		dList.add((long) 7);
-//		return dList;
-//	}
+	public List<Long> initDamages() throws InstanceNotFoundException {
+		List<Long> dList = new ArrayList<Long>();
+		dList.add((long) 7);
+		return dList;
+	}
 }
