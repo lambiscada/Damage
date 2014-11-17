@@ -62,40 +62,33 @@ public class ApiDamageRefactorLowTest {
 	@Test
 	public void testApiDamage() throws NamingException, InterruptedException,
 			NotValidDamageException, InstanceNotFoundException, SystemException {
-		List<Long> dList = initDamages();
+		List<Damage> dList = initDamages();
+		long execution = 0;
 		String newName = "name" + (System.currentTimeMillis()%100000000);
 		long startTime = System.currentTimeMillis();
 		try {
-			long ex = apiDamageRefactor.apiDamageValidationService(dList.get(0), dList.get(0),
+			execution = apiDamageRefactor.apiDamageValidationService(dList.get(0), dList.get(0),
 					newName, INCREMENT);
-		} catch (SecurityException | IllegalStateException
-				| NotSupportedException | RollbackException
-				| HeuristicMixedException | HeuristicRollbackException e) {
+		} catch (SecurityException | IllegalStateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		long stopTime = System.currentTimeMillis();
-		long executionTime = (stopTime - startTime);
+//		long stopTime = System.currentTimeMillis();
+//		long executionTime = (stopTime - startTime);
 //		 System.out.println("ApiDamageValidationService execution time:  "
 //		 + executionTime + "ms");
 //		
-//		System.out.println("ejecucion:  "+ex);
+//		System.out.println("ejecucion:  "+execution);
 
 	}
 
 	
-//
-//	 public List<Damage> initDamages() throws InstanceNotFoundException {
-//	 List<Damage> dList = new ArrayList<Damage>();
-//	 dList.add(damageDao.find(7));
-//	 return dList;
-//	 }
-	
-	public List<Long> initDamages() throws InstanceNotFoundException {
-		List<Long> dList = new ArrayList<Long>();
-		dList.add((long) 7);
-		return dList;
-	}
+
+	 public List<Damage> initDamages() throws InstanceNotFoundException {
+	 List<Damage> dList = new ArrayList<Damage>();
+	 dList.add(damageDao.find(7));
+	 return dList;
+	 }
 	
 }
 

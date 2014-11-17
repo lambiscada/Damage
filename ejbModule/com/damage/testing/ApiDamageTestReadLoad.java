@@ -15,6 +15,7 @@ import org.apache.jmeter.samplers.SampleResult;
 import com.damage.damageService.ValidationService;
 import com.damage.exception.InstanceNotFoundException;
 import com.damage.exception.NotValidDamageException;
+import com.damage.model.Damage;
 import com.damage.model.DamageDaoN;
 import com.damage.process.ApiDamageI;
 
@@ -85,10 +86,10 @@ public class ApiDamageTestReadLoad extends AbstractJavaSamplerClient {
 
 	}
 
-	public List<Long> initDamages() throws InstanceNotFoundException {
-		List<Long> dList = new ArrayList<Long>();
-		dList.add((long) 7);
-		return dList;
+	 public List<Long> initDamages() throws InstanceNotFoundException {
+		 List<Long> dList = new ArrayList<Long>();
+		 dList.add((long )7);
+		 return dList;
 	}
 
 }

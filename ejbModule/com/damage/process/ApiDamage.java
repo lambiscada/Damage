@@ -40,7 +40,7 @@ public class ApiDamage implements ApiDamageI {
 
 
 	@Override
-	public void apiDamageValidationService(long damage, long damage2,
+	public void apiDamageValidationService(Damage damage, Damage damage2,
 			String newName, long increment) throws InterruptedException,
 			NotValidDamageException, InstanceNotFoundException {
 
@@ -64,11 +64,11 @@ public class ApiDamage implements ApiDamageI {
 	 * executing the main method to be proof
 	 */
 	@Override
-	public void apiDamageReadOperations(long damage)
+	public void apiDamageReadOperations(long damageId)
 			throws NotValidDamageException, InstanceNotFoundException,
 			InterruptedException {
-		Damage damage1 = damageDao.find(damage);
-		validationService.verifyInitValue(damage1);
+		Damage damage = damageDao.find(damageId);
+		validationService.verifyInitValue(damage);
 
 	}
 

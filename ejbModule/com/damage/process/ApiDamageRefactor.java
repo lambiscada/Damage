@@ -49,16 +49,17 @@ public class ApiDamageRefactor implements ApiDamageRefactorI {
 	
 
 	@Override
-	public long apiDamageValidationService(long damage, long damage2,
-			String newName, long increment) throws InterruptedException,
-			NotValidDamageException, InstanceNotFoundException, NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
+	public long apiDamageValidationService(Damage damage, Damage damage2,
+			String newName, long increment) throws InstanceNotFoundException  {
 		UserTransaction txn = context.getUserTransaction();
-
+		long executionTime=0;
+		try {
 		validationService.verifyInitValue(damage); // READ
 		validationService.validationNames(damage); // READ								
 		validationService.verifDates(damage); //READ
 		validationService.compareDamageLevel(damage, damage);
 		Thread.sleep(SLEEP_TIME_READ);
+//		long start = System.currentTimeMillis();
 		
 		txn.begin(); 
 		validationService.setNewNames(damage, newName); // WRITE Operation
@@ -66,20 +67,32 @@ public class ApiDamageRefactor implements ApiDamageRefactorI {
 		damageDao.flush();
 		Thread.sleep(SLEEP_TIME);
 		txn.commit(); 	
-		damageDao.flush();
+//		long stopTime = System.currentTimeMillis();
+//		executionTime = (stopTime - start);
+		} catch(InstanceNotFoundException |  RollbackException | InterruptedException | HeuristicMixedException | SystemException | NotValidDamageException 
+				| NotSupportedException |  HeuristicRollbackException e) {
+			if (txn != null) {
+				try {
+					txn.rollback();
+				} catch (IllegalStateException | SecurityException
+						| SystemException e1) {
+					e1.printStackTrace();
+				}
+			}
+			e.printStackTrace();
+		}
+		
+//		return executionTime;
 		return 0;
 		
 	}
-	
-	
-	
+		
 	/*READ Method*/
 	/*With this method we can proof read some object  while another thread is executing the main method to be proof*/
 	@Override
-	public void apiDamageReadOperations(long damage) throws NotValidDamageException, InstanceNotFoundException, InterruptedException  {
-
-		Damage damage1 = damageDao.find(damage);
-		validationService.verifyInitValue(damage1);
+	public void apiDamageReadOperations(long damageId) throws NotValidDamageException, InstanceNotFoundException, InterruptedException  {
+		Damage damage = damageDao.find(damageId);
+		validationService.verifyInitValue(damage);
 			
 	}
 }

@@ -15,13 +15,11 @@ import com.damage.model.Damage;
 public interface ApiDamageRefactorI {
 
 	
-	long apiDamageValidationService(long damage, long damage2, String newName,
-			long increment) throws InterruptedException,
-			NotValidDamageException, InstanceNotFoundException, SystemException, NotSupportedException, SecurityException, IllegalStateException, RollbackException, HeuristicMixedException, HeuristicRollbackException;
+	long apiDamageValidationService(Damage damage, Damage damage2, String newName,
+			long increment) throws InstanceNotFoundException;
 
 
 	void apiDamageReadOperations(long damage)
 			throws NotValidDamageException, InstanceNotFoundException, InterruptedException;
-
 
 }

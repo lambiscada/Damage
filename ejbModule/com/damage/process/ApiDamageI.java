@@ -10,7 +10,7 @@ import com.damage.model.Damage;
 public interface ApiDamageI {
 
 	
-	void apiDamageValidationService(long damage1, long damage2,
+	void apiDamageValidationService(Damage damage1, Damage damage2,
 			String newName, long increment) throws InterruptedException,
 			NotValidDamageException, InstanceNotFoundException;
 

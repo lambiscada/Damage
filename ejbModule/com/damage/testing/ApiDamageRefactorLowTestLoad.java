@@ -1,18 +1,12 @@
 package com.damage.testing;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
 
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.protocol.java.sampler.AbstractJavaSamplerClient;
@@ -21,7 +15,6 @@ import org.apache.jmeter.samplers.SampleResult;
 
 import com.damage.damageService.ValidationService;
 import com.damage.exception.InstanceNotFoundException;
-import com.damage.exception.NotValidDamageException;
 import com.damage.model.Damage;
 import com.damage.model.DamageDaoN;
 import com.damage.process.ApiDamageRefactorI;
@@ -33,8 +26,7 @@ public class ApiDamageRefactorLowTestLoad extends AbstractJavaSamplerClient {
 	private long executionTime;
 	private ValidationService validationService;
 	private DamageDaoN damageDao;
-//	private List<Damage> dList;
-	private List<Long> dList;
+	private List<Damage> dList;
 	private final long INCREMENT = 200;
 
 	public ApiDamageRefactorLowTestLoad() {
@@ -87,14 +79,10 @@ public class ApiDamageRefactorLowTestLoad extends AbstractJavaSamplerClient {
 			try {
 				executionTime = apiDamageRefactor.apiDamageValidationService(
 						dList.get(0), dList.get(0), newName, INCREMENT);
-			} catch (SecurityException | IllegalStateException
-					| NotSupportedException | RollbackException
-					| HeuristicMixedException | HeuristicRollbackException e) {
-				// TODO Auto-generated catch block
+			} catch (SecurityException | IllegalStateException e) {
 				e.printStackTrace();
 			}
-		} catch (InterruptedException | NotValidDamageException
-				| InstanceNotFoundException | SystemException e) {
+		} catch (InstanceNotFoundException e) {
 			e.printStackTrace();
 		}
 
@@ -104,14 +92,9 @@ public class ApiDamageRefactorLowTestLoad extends AbstractJavaSamplerClient {
 
 	}
 
-//	 public List<Damage> initDamages() throws InstanceNotFoundException {
-//	 List<Damage> dList = new ArrayList<Damage>();
-//	 dList.add(damageDao.find(7));
-//	 return dList;
-//	 }
-	public List<Long> initDamages() throws InstanceNotFoundException {
-		List<Long> dList = new ArrayList<Long>();
-		dList.add((long) 7);
+	public List<Damage> initDamages() throws InstanceNotFoundException {
+		List<Damage> dList = new ArrayList<Damage>();
+		dList.add(damageDao.find(7));
 		return dList;
 	}
 
