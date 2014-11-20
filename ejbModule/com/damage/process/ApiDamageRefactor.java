@@ -53,19 +53,19 @@ public class ApiDamageRefactor implements ApiDamageRefactorI {
 			String newName, long increment) throws InstanceNotFoundException  {
 		UserTransaction txn = context.getUserTransaction();
 		long executionTime=0;
+		Damage damage = damageDao.find(d);
 		
 		try {
-		validationService.verifyInitValue(d); // READ
-		validationService.validationNames(d); // READ								
-		validationService.verifDates(d); //READ
-		validationService.compareDamageLevel(d, d);
+		validationService.verifyInitValue(damage); // READ
+		validationService.validationNames(damage); // READ								
+		validationService.verifDates(damage); //READ
+		validationService.compareDamageLevel(damage, damage);
 		Thread.sleep(SLEEP_TIME_READ);
 
 //		long start = System.currentTimeMillis();	
 		txn.begin(); 
-		Damage damage = damageDao.find(d);
-		validationService.setNewNames(damage, newName); // WRITE Operation
-		validationService.updateDepositValue(damage, increment); // WRITE
+		validationService.setNewNames(damage.getIdDamage(), newName); // WRITE Operation
+		validationService.updateDepositValue(damage.getIdDamage(), increment); // WRITE
 		damageDao.flush();
 		Thread.sleep(SLEEP_TIME);
 		txn.commit(); 	
