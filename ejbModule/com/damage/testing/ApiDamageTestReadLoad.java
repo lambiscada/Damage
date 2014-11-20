@@ -26,7 +26,7 @@ public class ApiDamageTestReadLoad extends AbstractJavaSamplerClient {
 	private ValidationService validationService;
 	private final long INCREMENT = 200;
 	private DamageDaoN damageDao;
-	private List<Long> dList;
+	private List<Damage> dList;
 
 	public ApiDamageTestReadLoad() {
 		super();
@@ -86,9 +86,9 @@ public class ApiDamageTestReadLoad extends AbstractJavaSamplerClient {
 
 	}
 
-	 public List<Long> initDamages() throws InstanceNotFoundException {
-		 List<Long> dList = new ArrayList<Long>();
-		 dList.add((long )7);
+	 public List<Damage> initDamages() throws InstanceNotFoundException {
+		 List<Damage> dList = new ArrayList<Damage>();
+		 dList.add(damageDao.find(7));
 		 return dList;
 	}
 

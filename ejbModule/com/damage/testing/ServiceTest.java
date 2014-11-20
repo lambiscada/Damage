@@ -95,17 +95,17 @@ public class ServiceTest {
 
 	}
 
-	@Test
-	public void testNewNames() throws InstanceNotFoundException {
-		Damage damage = createDamage("Sebastian", Calendar.getInstance(),
-				"accidente fatal", 2, "Calle mayor", "Car Crash", 1000, 50000);
-		String newName = "John";
-		validationService.setNewNames(damage.getIdDamage(), newName);
-		Damage damageNewName = damageDao.find(damage.getIdDamage());
-		assertNotEquals(damageNewName.getClientName(), "Sebastian");
-		assertEquals(damageNewName.getClientName(), "John");
-
-	}
+//	@Test
+//	public void testNewNames() throws InstanceNotFoundException {
+//		Damage damage = createDamage("Sebastian", Calendar.getInstance(),
+//				"accidente fatal", 2, "Calle mayor", "Car Crash", 1000, 50000);
+//		String newName = "John";
+//		validationService.setNewNames(damage.getIdDamage(), newName);
+//		Damage damageNewName = damageDao.find(damage.getIdDamage());
+//		assertNotEquals(damageNewName.getClientName(), "Sebastian");
+//		assertEquals(damageNewName.getClientName(), "John");
+//
+//	}
 
 	@Test(expected = NotValidDamageException.class)
 	public void testVerificationPastDateTest() throws NotValidDamageException,

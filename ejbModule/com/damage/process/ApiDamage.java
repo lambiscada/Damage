@@ -40,36 +40,36 @@ public class ApiDamage implements ApiDamageI {
 
 
 	@Override
-	public void apiDamageValidationService(Damage damage, Damage damage2,
+	public void apiDamageValidationService(long d, long damage2,
 			String newName, long increment) throws InterruptedException,
 			NotValidDamageException, InstanceNotFoundException {
-
-		validationService.setNewNames(damage, newName); // WRITE Operation
-		validationService.updateDepositValue(damage, increment); // WRITE
+		Damage damage = damageDao.find(d);
+		validationService.setNewNames(damage.getIdDamage(), newName); // WRITE Operation
+		validationService.updateDepositValue(damage.getIdDamage(), increment); // WRITE
 		damageDao.flush();
 		Thread.sleep(SLEEP_TIME);
-		
-		validationService.verifyInitValue(damage); // READ
-		validationService.validationNames(damage); // READ								
-		validationService.verifDates(damage); //READ
-		validationService.compareDamageLevel(damage, damage);
+
+		validationService.verifyInitValue(damage.getIdDamage()); // READ
+		validationService.validationNames(damage.getIdDamage()); // READ								
+		validationService.verifDates(damage.getIdDamage()); //READ
+		validationService.compareDamageLevel(damage.getIdDamage(), damage.getIdDamage());
 		Thread.sleep(SLEEP_TIME_READ);
 		
 		damageDao.flush();
 		
 	}
+	
 
 	/*
 	 * With this method we can proof read some object while another thread is
 	 * executing the main method to be proof
 	 */
 	@Override
-	public void apiDamageReadOperations(long damageId)
+	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+	public void apiDamageReadOperations(Damage damage)
 			throws NotValidDamageException, InstanceNotFoundException,
 			InterruptedException {
-		Damage damage = damageDao.find(damageId);
-		validationService.verifyInitValue(damage);
-
+		validationService.verifDates(damage);
 	}
 
 	/*

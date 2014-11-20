@@ -9,5 +9,6 @@ CREATE TABLE Damage
   levelDamage INT,
   depositIni BIGINT,
   clientName VARCHAR(16),
+  version BIGINT,
   PRIMARY KEY(idDamage))
 

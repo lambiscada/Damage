@@ -19,24 +19,13 @@ import com.damage.model.DamageDaoN;
  */
 
 @Stateless
-//@TransactionManagement(TransactionManagementType.CONTAINER)
-//@TransactionAttribute(TransactionAttributeType.REQUIRED)
+@TransactionManagement(TransactionManagementType.CONTAINER)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class ValidationServiceBean implements ValidationService {
 	@EJB
 	private DamageDaoN damageDao;
 
 	public ValidationServiceBean() {
-	}
-
-	@Override
-//	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
-	public long verifyInitValue(Damage damage) throws NotValidDamageException,
-			InstanceNotFoundException {
-		long value = damage.getValueIni();
-		if (value <= 0)
-			throw new NotValidDamageException(damage.getIdDamage());
-
-		return value;
 	}
 
 	@Override
@@ -52,6 +41,16 @@ public class ValidationServiceBean implements ValidationService {
 
 	@Override
 //	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+	public long verifyInitValue(Damage damage) throws NotValidDamageException,
+			InstanceNotFoundException {
+		if (damage.getValueIni() <= 0)
+			throw new NotValidDamageException(damage.getIdDamage());
+
+		return damage.getValueIni();
+	}
+
+	@Override
+//	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public boolean validationNames(long damageId)
 			throws NotValidDamageException, InstanceNotFoundException {
 		if (damageDao.find(damageId).getClientName().isEmpty())
@@ -59,7 +58,6 @@ public class ValidationServiceBean implements ValidationService {
 		return true;
 
 	}
-	
 	@Override
 //	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public boolean validationNames(Damage damage)
@@ -70,17 +68,18 @@ public class ValidationServiceBean implements ValidationService {
 
 	}
 
-	@Override
-	public void setNewNames(Damage damage, String newName) throws InstanceNotFoundException {
-		damage.setClientName(newName);
-		damageDao.update(damage);
 
-	}
 	@Override
 	public void setNewNames(long damageId, String newName) throws InstanceNotFoundException {
 		Damage d = damageDao.find(damageId);
 		d.setClientName(newName);
 		damageDao.update(d);
+
+	}
+	@Override
+	public void setNewNames(Damage damage, String newName) throws InstanceNotFoundException {
+		damage.setClientName(newName);
+		damageDao.update(damage);
 
 	}
 	@Override
@@ -102,6 +101,7 @@ public class ValidationServiceBean implements ValidationService {
 		else
 			throw new NotValidDamageException(damage.getIdDamage());
 	}
+	
 
 	@Override
 //	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
@@ -115,7 +115,6 @@ public class ValidationServiceBean implements ValidationService {
 		else
 			return d2;
 	}
-	
 	@Override
 //	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public Damage compareDamageLevel(Damage damage1, Damage damage2) throws InstanceNotFoundException { 
@@ -135,7 +134,6 @@ public class ValidationServiceBean implements ValidationService {
 		damage.setDepositIni(newDeposit);
 		damageDao.update(damage);
 	}
-	
 	@Override
 	public void updateDepositValue(Damage damage, long increment)
 			throws InstanceNotFoundException {

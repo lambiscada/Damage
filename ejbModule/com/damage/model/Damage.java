@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 /**
  * The persistent class for the DAMAGE database table.
@@ -36,6 +37,8 @@ public class Damage implements Serializable {
 	private long valueIni;
 
 	private long depositIni;
+	
+	private long version;
 
 	public Damage() {
 		super();
@@ -123,11 +126,21 @@ public class Damage implements Serializable {
 	}
 
 	public long getValueIni() {
-		return this.valueIni;
+		return this.version;
 	}
 
-	public void setValueIni(long valueIni) {
-		this.valueIni = valueIni;
+	public void setValueIni(long version) {
+		this.version = version;
+	}
+	
+	/* Version used for optimistic locking */
+	@Version
+	public long getVersion() {
+		return version;
+	}
+
+	public void setVersion(long version) {
+		this.version = version;
 	}
 
 }

@@ -15,7 +15,7 @@ import com.damage.model.Damage;
 public interface ApiDamageRefactorI {
 
 	
-	long apiDamageValidationService(Damage damage, Damage damage2, String newName,
+	long apiDamageValidationService(long damage, long damage2, String newName,
 			long increment) throws InstanceNotFoundException;
 
 

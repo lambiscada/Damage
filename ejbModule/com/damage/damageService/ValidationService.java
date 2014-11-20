@@ -11,20 +11,11 @@ import com.damage.model.Damage;
 @Remote
 public interface ValidationService {
 
-	long verifyInitValue(Damage damage) throws NotValidDamageException,
-			InstanceNotFoundException;
-
 	long verifyInitValue(long damageId) throws NotValidDamageException,
 			InstanceNotFoundException;
 
 	boolean validationNames(long damageId) throws NotValidDamageException,
 			InstanceNotFoundException;
-
-	boolean validationNames(Damage damage) throws NotValidDamageException,
-			InstanceNotFoundException;
-
-	void setNewNames(Damage damage, String newName)
-			throws InstanceNotFoundException;
 
 	void setNewNames(long damageId, String newName)
 			throws InstanceNotFoundException;
@@ -38,9 +29,6 @@ public interface ValidationService {
 	void updateDepositValue(long damageId, long increment)
 			throws InstanceNotFoundException;
 
-	void updateDepositValue(Damage damage, long increment)
-			throws InstanceNotFoundException;
-
 	boolean removeRepeatNames(Damage d1, Damage d2)
 			throws InstanceNotFoundException;
 
@@ -50,10 +38,21 @@ public interface ValidationService {
 
 	void removeDamage(Damage damage) throws InstanceNotFoundException;
 
+	boolean validationNames(Damage damage) throws NotValidDamageException,
+			InstanceNotFoundException;
+
+	long verifyInitValue(Damage damage) throws NotValidDamageException,
+			InstanceNotFoundException;
+
+	void setNewNames(Damage damage, String newName)
+			throws InstanceNotFoundException;
+
+	void updateDepositValue(Damage damage, long increment)
+			throws InstanceNotFoundException;
+
 	boolean verifDates(Damage damage) throws NotValidDamageException,
 			InstanceNotFoundException;
 
 	Damage compareDamageLevel(Damage damage1, Damage damage2)
 			throws InstanceNotFoundException;
-
 }

@@ -49,19 +49,21 @@ public class ApiDamageRefactor implements ApiDamageRefactorI {
 	
 
 	@Override
-	public long apiDamageValidationService(Damage damage, Damage damage2,
+	public long apiDamageValidationService(long d, long damage2,
 			String newName, long increment) throws InstanceNotFoundException  {
 		UserTransaction txn = context.getUserTransaction();
 		long executionTime=0;
-		try {
-		validationService.verifyInitValue(damage); // READ
-		validationService.validationNames(damage); // READ								
-		validationService.verifDates(damage); //READ
-		validationService.compareDamageLevel(damage, damage);
-		Thread.sleep(SLEEP_TIME_READ);
-//		long start = System.currentTimeMillis();
 		
+		try {
+		validationService.verifyInitValue(d); // READ
+		validationService.validationNames(d); // READ								
+		validationService.verifDates(d); //READ
+		validationService.compareDamageLevel(d, d);
+		Thread.sleep(SLEEP_TIME_READ);
+
+//		long start = System.currentTimeMillis();	
 		txn.begin(); 
+		Damage damage = damageDao.find(d);
 		validationService.setNewNames(damage, newName); // WRITE Operation
 		validationService.updateDepositValue(damage, increment); // WRITE
 		damageDao.flush();
@@ -81,7 +83,7 @@ public class ApiDamageRefactor implements ApiDamageRefactorI {
 			}
 			e.printStackTrace();
 		}
-		
+		damageDao.flush();
 //		return executionTime;
 		return 0;
 		
@@ -92,7 +94,7 @@ public class ApiDamageRefactor implements ApiDamageRefactorI {
 	@Override
 	public void apiDamageReadOperations(long damageId) throws NotValidDamageException, InstanceNotFoundException, InterruptedException  {
 		Damage damage = damageDao.find(damageId);
-		validationService.verifyInitValue(damage);
+		validationService.verifyInitValue(damage.getIdDamage());
 			
 	}
 }
