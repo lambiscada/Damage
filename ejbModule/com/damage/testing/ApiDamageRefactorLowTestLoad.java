@@ -1,12 +1,14 @@
 package com.damage.testing;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.transaction.SystemException;
 
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.protocol.java.sampler.AbstractJavaSamplerClient;
@@ -27,6 +29,7 @@ public class ApiDamageRefactorLowTestLoad extends AbstractJavaSamplerClient {
 	private long executionTime;
 	private ValidationService validationService;
 	private DamageDaoN damageDao;
+//	private List<Damage> dList;
 	private List<Long> dList;
 	private final long INCREMENT = 200;
 
@@ -77,17 +80,11 @@ public class ApiDamageRefactorLowTestLoad extends AbstractJavaSamplerClient {
 		result.sampleStart();
 		try {
 			String newName = "name" + (System.currentTimeMillis() % 100000000);
-			try {
-				try {
-					executionTime = apiDamageRefactor.apiDamageValidationService(
-							dList.get(0), dList.get(0), newName, INCREMENT);
-				} catch (NotValidDamageException | InterruptedException e) {
-					e.printStackTrace();
-				}
-			} catch (SecurityException | IllegalStateException e) {
-				e.printStackTrace();
-			}
-		} catch (InstanceNotFoundException e) {
+//			executionTime = apiDamageRefactor.apiDamageValidationService(
+//					dList.get(0), dList.get(0), newName, INCREMENT);
+			executionTime = apiDamageRefactor.apiDamageValidationService(dList, newName, INCREMENT);
+		} catch (InterruptedException | NotValidDamageException
+				| InstanceNotFoundException | SystemException e) {
 			e.printStackTrace();
 		}
 
@@ -97,9 +94,22 @@ public class ApiDamageRefactorLowTestLoad extends AbstractJavaSamplerClient {
 
 	}
 
+//	 public List<Damage> initDamages() throws InstanceNotFoundException {
+//	 List<Damage> dList = new ArrayList<Damage>();
+//	 dList.add(damageDao.find(7));
+//	 return dList;
+//	 }
+//	public List<Long> initDamages() throws InstanceNotFoundException {
+//		List<Long> dList = new ArrayList<Long>();
+//		dList.add((long) 7);
+//		return dList;
+//	}
+	
 	public List<Long> initDamages() throws InstanceNotFoundException {
 		List<Long> dList = new ArrayList<Long>();
-		dList.add((long) 7);
+		for (int i = 1; i < 100; i++)
+			dList.add((long) i);
+
 		return dList;
 	}
 

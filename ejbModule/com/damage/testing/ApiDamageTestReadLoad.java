@@ -15,7 +15,6 @@ import org.apache.jmeter.samplers.SampleResult;
 import com.damage.damageService.ValidationService;
 import com.damage.exception.InstanceNotFoundException;
 import com.damage.exception.NotValidDamageException;
-import com.damage.model.Damage;
 import com.damage.model.DamageDaoN;
 import com.damage.process.ApiDamageI;
 
@@ -26,7 +25,7 @@ public class ApiDamageTestReadLoad extends AbstractJavaSamplerClient {
 	private ValidationService validationService;
 	private final long INCREMENT = 200;
 	private DamageDaoN damageDao;
-	private List<Damage> dList;
+	private List<Long> dList;
 
 	public ApiDamageTestReadLoad() {
 		super();
@@ -73,7 +72,8 @@ public class ApiDamageTestReadLoad extends AbstractJavaSamplerClient {
 		}
 		result.sampleStart();
 		try {
-			apiDamage.apiDamageReadOperations(dList.get(0));
+			apiDamage.apiDamageReadOperations(dList);
+		
 		} catch (NotValidDamageException | InstanceNotFoundException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
@@ -86,10 +86,12 @@ public class ApiDamageTestReadLoad extends AbstractJavaSamplerClient {
 
 	}
 
-	 public List<Damage> initDamages() throws InstanceNotFoundException {
-		 List<Damage> dList = new ArrayList<Damage>();
-		 dList.add(damageDao.find(7));
-		 return dList;
+	public List<Long> initDamages() throws InstanceNotFoundException {
+		List<Long> dList = new ArrayList<Long>();
+		for (int i=50; i<70; i++)
+			dList.add((long) i);
+		
+		return dList;
 	}
 
 }

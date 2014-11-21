@@ -1,6 +1,7 @@
 package com.damage.process;
 
 import java.util.Calendar;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
@@ -38,43 +39,92 @@ public class ApiDamage implements ApiDamageI {
 
 	}
 
-
+	
 	@Override
-	public void apiDamageValidationService(long d, long damage2,
+	public void apiDamageValidationService(List<Long> d,
 			String newName, long increment) throws InterruptedException,
 			NotValidDamageException, InstanceNotFoundException {
-		Damage damage = damageDao.find(d);
-		validationService.setNewNames(damage.getIdDamage(), newName); // WRITE Operation
-		validationService.updateDepositValue(damage.getIdDamage(), increment); // WRITE
+		for (int i = 1;i<50;i++) {
+			Damage damage = damageDao.find(d.get(i));
+			validationService.setNewNames(damage.getIdDamage(), newName); // WRITE
+			validationService.updateDepositValue(damage.getIdDamage(), increment); // WRITE
+			damageDao.flush();	
+		}
+		Thread.sleep(SLEEP_TIME);
+		
+		for (int i = 1;i<50;i++) {
+		validationService.verifyInitValue(d.get(i)); // READ
+		validationService.validationNames(d.get(i)); // READ								
+		validationService.validationNames(d.get(i)); // READ
+		validationService.verifyInitValue(d.get(i)); // READ
+		}
+//		Thread.sleep(SLEEP_TIME_READ);
+		damageDao.flush();
+		
+	}
+	
+	@Override
+	public void apiDamageValidationService(Damage damage1, Damage damage2,
+			String newName, long increment) throws InterruptedException,
+			NotValidDamageException, InstanceNotFoundException {
+		validationService.setNewNames(damage1.getIdDamage(), newName); // WRITE Operation
+		validationService.updateDepositValue(damage1.getIdDamage(), increment); // WRITE
 		damageDao.flush();
 		Thread.sleep(SLEEP_TIME);
-
-		validationService.verifyInitValue(damage.getIdDamage()); // READ
-		validationService.validationNames(damage.getIdDamage()); // READ								
-		validationService.verifDates(damage.getIdDamage()); //READ
-		validationService.compareDamageLevel(damage.getIdDamage(), damage.getIdDamage());
+		
+		validationService.verifyInitValue(damage1); // READ
+		validationService.validationNames(damage1); // READ								
+		validationService.validationNames(damage1); // READ
+		validationService.verifyInitValue(damage1); // READ
 		Thread.sleep(SLEEP_TIME_READ);
 		
 		damageDao.flush();
 		
 	}
-	
 
-	/*
-	 * With this method we can proof read some object while another thread is
-	 * executing the main method to be proof
-	 */
 	@Override
-	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
-	public void apiDamageReadOperations(Damage damage)
-			throws NotValidDamageException, InstanceNotFoundException,
-			InterruptedException {
-		validationService.verifDates(damage);
+	public void apiDamageValidationService(long damage, long damage2,
+			String newName, long increment) throws InterruptedException,
+			NotValidDamageException, InstanceNotFoundException {
+
+		validationService.setNewNames(damage, newName); // WRITE Operation
+		validationService.updateDepositValue(damage, increment); // WRITE
+		damageDao.flush();
+		Thread.sleep(SLEEP_TIME);
+		
+		validationService.verifyInitValue(damage); // READ
+		validationService.validationNames(damage); // READ								
+		validationService.validationNames(damage); // READ
+		validationService.verifyInitValue(damage); // READ
+		Thread.sleep(SLEEP_TIME_READ);
+		
+		damageDao.flush();
+		
 	}
 
 	/*
 	 * With this method we can proof read some object while another thread is
 	 * executing the main method to be proof
 	 */
+	@Override
+	public void apiDamageReadOperations(long damage)
+			throws NotValidDamageException, InstanceNotFoundException,
+			InterruptedException {
+		Damage damage1 = damageDao.find(damage);
+		validationService.verifyInitValue(damage1);
+
+	}
+
+	/*
+	 * With this method we can proof read some object while another thread is
+	 * executing the main method to be proof
+	 */
+	@Override
+	public void apiDamageReadOperations(List<Long> d)
+			throws NotValidDamageException, InstanceNotFoundException,
+			InterruptedException {
+		for (int i = 1; i<d.size(); i++)
+			validationService.verifyInitValue(d.get(i));
+	}
 
 }

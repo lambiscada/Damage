@@ -8,10 +8,6 @@ import java.util.Properties;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 
 import org.junit.Before;
@@ -59,37 +55,35 @@ public class ApiDamageRefactorLowTest {
 		damageDao = (DamageDaoN) initialContext
 				.lookup("ejb:/Damage//DamageDaoNBean!com.damage.model.DamageDaoN");
 	}
-	
 	@Test
 	public void testApiDamage() throws NamingException, InterruptedException,
 			NotValidDamageException, InstanceNotFoundException, SystemException {
 		List<Long> dList = initDamages();
-		long execution = 0;
 		String newName = "name" + (System.currentTimeMillis()%100000000);
 		long startTime = System.currentTimeMillis();
-		try {
-			execution = apiDamageRefactor.apiDamageValidationService(dList.get(0), dList.get(0),
-					newName, INCREMENT);
-		} catch (SecurityException | IllegalStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-//		long stopTime = System.currentTimeMillis();
-//		long executionTime = (stopTime - startTime);
-//		 System.out.println("ApiDamageValidationService execution time:  "
-//		 + executionTime + "ms");
-//		
-//		System.out.println("ejecucion:  "+execution);
+		long ex = apiDamageRefactor.apiDamageValidationService(dList.get(0), dList.get(0),
+				newName, INCREMENT);
+		long stopTime = System.currentTimeMillis();
+		long executionTime = (stopTime - startTime);
+		 System.out.println("ApiDamageValidationService execution time:  "
+		 + executionTime + "ms");
+		
+		System.out.println("ejecucion:  "+ex);
 
 	}
 
 	
 
-	 public List<Long> initDamages() throws InstanceNotFoundException {
-	 List<Long> dList = new ArrayList<Long>();
-	 dList.add((long)7);
-	 return dList;
-	 }
+//	 public List<Damage> initDamages() throws InstanceNotFoundException {
+//	 List<Damage> dList = new ArrayList<Damage>();
+//	 dList.add(damageDao.find(7));
+//	 return dList;
+//	 }
+	
+	public List<Long> initDamages() throws InstanceNotFoundException {
+		List<Long> dList = new ArrayList<Long>();
+		dList.add((long) 7);
+		return dList;
+	}
 	
 }
-
