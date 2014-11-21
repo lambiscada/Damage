@@ -16,10 +16,13 @@ public interface ApiDamageRefactorI {
 
 	
 	long apiDamageValidationService(long damage, long damage2, String newName,
-			long increment) throws InstanceNotFoundException;
+			long increment) throws InstanceNotFoundException, NotValidDamageException, InterruptedException;
 
 
 	void apiDamageReadOperations(long damage)
 			throws NotValidDamageException, InstanceNotFoundException, InterruptedException;
+
+
+	void apiDamageValidationUpdates(long damage, String newName, long increment) throws InstanceNotFoundException, InterruptedException;
 
 }

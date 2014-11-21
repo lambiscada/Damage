@@ -59,6 +59,7 @@ public class ApiDamageRefactorLowTest {
 		damageDao = (DamageDaoN) initialContext
 				.lookup("ejb:/Damage//DamageDaoNBean!com.damage.model.DamageDaoN");
 	}
+	
 	@Test
 	public void testApiDamage() throws NamingException, InterruptedException,
 			NotValidDamageException, InstanceNotFoundException, SystemException {

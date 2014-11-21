@@ -15,6 +15,7 @@ import org.apache.jmeter.samplers.SampleResult;
 
 import com.damage.damageService.ValidationService;
 import com.damage.exception.InstanceNotFoundException;
+import com.damage.exception.NotValidDamageException;
 import com.damage.model.Damage;
 import com.damage.model.DamageDaoN;
 import com.damage.process.ApiDamageRefactorI;
@@ -77,8 +78,12 @@ public class ApiDamageRefactorLowTestLoad extends AbstractJavaSamplerClient {
 		try {
 			String newName = "name" + (System.currentTimeMillis() % 100000000);
 			try {
-				executionTime = apiDamageRefactor.apiDamageValidationService(
-						dList.get(0), dList.get(0), newName, INCREMENT);
+				try {
+					executionTime = apiDamageRefactor.apiDamageValidationService(
+							dList.get(0), dList.get(0), newName, INCREMENT);
+				} catch (NotValidDamageException | InterruptedException e) {
+					e.printStackTrace();
+				}
 			} catch (SecurityException | IllegalStateException e) {
 				e.printStackTrace();
 			}
