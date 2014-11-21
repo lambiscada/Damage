@@ -3,15 +3,12 @@ package com.damage.testing;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-
 import org.apache.jmeter.protocol.java.sampler.AbstractJavaSamplerClient;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.apache.jmeter.samplers.SampleResult;
-
 import com.damage.damageService.ValidationService;
 import com.damage.exception.InstanceNotFoundException;
 import com.damage.exception.NotValidDamageException;
@@ -33,7 +30,6 @@ public class ApiDamageTestReadLoad extends AbstractJavaSamplerClient {
 
 	@Override
 	public void setupTest(JavaSamplerContext context) {
-
 	}
 
 	public SampleResult runTest(JavaSamplerContext context) {
@@ -43,14 +39,12 @@ public class ApiDamageTestReadLoad extends AbstractJavaSamplerClient {
 		try {
 			initialContext = new InitialContext(properties);
 		} catch (NamingException e1) {
-
 			e1.printStackTrace();
 		}
 		try {
 			validationService = (ValidationService) initialContext
 					.lookup("ejb:/Damage//ValidationServiceBean!com.damage.damageService.ValidationService");
 		} catch (NamingException e) {
-
 			e.printStackTrace();
 		}
 		try {
@@ -78,11 +72,9 @@ public class ApiDamageTestReadLoad extends AbstractJavaSamplerClient {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
 		result.sampleEnd();
 		result.setSuccessful(true);
 		return result;
-
 	}
 
 	public List<Long> initDamages() throws InstanceNotFoundException {
@@ -90,5 +82,4 @@ public class ApiDamageTestReadLoad extends AbstractJavaSamplerClient {
 		dList.add((long) 7);
 		return dList;
 	}
-
 }

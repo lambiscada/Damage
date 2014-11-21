@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
-
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.transaction.SystemException;
-
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.protocol.java.sampler.AbstractJavaSamplerClient;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
@@ -19,7 +17,6 @@ import org.apache.jmeter.samplers.SampleResult;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import com.damage.damageService.ValidationService;
 import com.damage.exception.InstanceNotFoundException;
 import com.damage.exception.NotValidDamageException;
@@ -32,20 +29,18 @@ public class ApiDamageTestLoad extends AbstractJavaSamplerClient {
 	private static Context initialContext;
 	private ApiDamageI apiDamage;
 	private long damage1, damage2;
-	private  ValidationService validationService;
+	private ValidationService validationService;
 	private final long INCREMENT = 200;
 	private DamageDaoN damageDao;
-//	private List<Damage> dList;
+	// private List<Damage> dList;
 	private List<Long> dList;
-	
-	
+
 	public ApiDamageTestLoad() {
 		super();
 	}
 
 	@Override
 	public void setupTest(JavaSamplerContext context) {
-
 	}
 
 	public SampleResult runTest(JavaSamplerContext context) {
@@ -55,14 +50,12 @@ public class ApiDamageTestLoad extends AbstractJavaSamplerClient {
 		try {
 			initialContext = new InitialContext(properties);
 		} catch (NamingException e1) {
-
 			e1.printStackTrace();
 		}
 		try {
 			validationService = (ValidationService) initialContext
 					.lookup("ejb:/Damage//ValidationServiceBean!com.damage.damageService.ValidationService");
 		} catch (NamingException e) {
-
 			e.printStackTrace();
 		}
 		try {
@@ -84,24 +77,23 @@ public class ApiDamageTestLoad extends AbstractJavaSamplerClient {
 		}
 		result.sampleStart();
 		try {
-			String newName = "name" + (System.currentTimeMillis()%100000000);
-			apiDamage.apiDamageValidationService(dList.get(0),dList.get(0), newName, INCREMENT);
+			String newName = "name" + (System.currentTimeMillis() % 100000000);
+			apiDamage.apiDamageValidationService(dList.get(0), dList.get(0),
+					newName, INCREMENT);
 		} catch (InterruptedException | NotValidDamageException
 				| InstanceNotFoundException e) {
 			e.printStackTrace();
 		}
-
 		result.sampleEnd();
 		result.setSuccessful(true);
 		return result;
-
 	}
 
-//	public List<Damage> initDamages() throws InstanceNotFoundException {
-//		List<Damage> dList = new ArrayList<Damage>();
-//		dList.add(damageDao.find(7));
-//		return dList;
-//	}
+	// public List<Damage> initDamages() throws InstanceNotFoundException {
+	// List<Damage> dList = new ArrayList<Damage>();
+	// dList.add(damageDao.find(7));
+	// return dList;
+	// }
 	public List<Long> initDamages() throws InstanceNotFoundException {
 		List<Long> dList = new ArrayList<Long>();
 		dList.add((long) 7);

@@ -1,7 +1,6 @@
 package com.damage.process;
 
 import java.util.Calendar;
-
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -10,7 +9,6 @@ import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.transaction.TransactionSynchronizationRegistry;
-
 import com.damage.damageService.ValidationService;
 import com.damage.exception.InstanceNotFoundException;
 import com.damage.exception.NotValidDamageException;
@@ -30,12 +28,10 @@ public class ApiDamage implements ApiDamageI {
 	private DamageDaoN damageDao;
 	@EJB
 	private ValidationService validationService;
-
 	@Resource(lookup = "java:comp/TransactionSynchronizationRegistry")
 	TransactionSynchronizationRegistry tsr;
 
 	public ApiDamage() {
-
 	}
 
 	@Override
@@ -46,35 +42,28 @@ public class ApiDamage implements ApiDamageI {
 		validationService.updateDepositValue(damage1.getIdDamage(), increment); // WRITE
 		damageDao.flush();
 		Thread.sleep(SLEEP_TIME);
-		
 		validationService.verifyInitValue(damage1); // READ
-		validationService.validationNames(damage1); // READ								
+		validationService.validationNames(damage1); // READ
 		validationService.validationNames(damage1); // READ
 		validationService.verifyInitValue(damage1); // READ
 		Thread.sleep(SLEEP_TIME_READ);
-		
 		damageDao.flush();
-		
 	}
 
 	@Override
 	public void apiDamageValidationService(long damage, long damage2,
 			String newName, long increment) throws InterruptedException,
 			NotValidDamageException, InstanceNotFoundException {
-
 		validationService.setNewNames(damage, newName); // WRITE Operation
 		validationService.updateDepositValue(damage, increment); // WRITE
 		damageDao.flush();
 		Thread.sleep(SLEEP_TIME);
-		
 		validationService.verifyInitValue(damage); // READ
-		validationService.validationNames(damage); // READ								
+		validationService.validationNames(damage); // READ
 		validationService.validationNames(damage); // READ
 		validationService.verifyInitValue(damage); // READ
 		Thread.sleep(SLEEP_TIME_READ);
-		
 		damageDao.flush();
-		
 	}
 
 	/*
@@ -87,7 +76,6 @@ public class ApiDamage implements ApiDamageI {
 			InterruptedException {
 		Damage damage1 = damageDao.find(damage);
 		validationService.verifyInitValue(damage1);
-
 	}
 
 	/*
@@ -98,8 +86,6 @@ public class ApiDamage implements ApiDamageI {
 	public void apiDamageReadOperations(Damage damage1)
 			throws NotValidDamageException, InstanceNotFoundException,
 			InterruptedException {
-
 		validationService.verifyInitValue(damage1);
 	}
-
 }
