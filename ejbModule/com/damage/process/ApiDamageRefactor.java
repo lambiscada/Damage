@@ -60,7 +60,7 @@ public class ApiDamageRefactor implements ApiDamageRefactorI {
 		validationService.compareDamageLevel(damage, damage);
 		Thread.sleep(SLEEP_TIME_READ);
 //		long start = System.currentTimeMillis();
-		System.out.println("hola");
+	
 		txn.begin(); 
 		validationService.setNewNames(damage.getIdDamage(), newName); // WRITE Operation
 		validationService.updateDepositValue(damage.getIdDamage(), increment); // WRITE
