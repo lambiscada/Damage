@@ -47,14 +47,14 @@ public class ApiDamageRefactor implements ApiDamageRefactorI {
 			NotValidDamageException, InstanceNotFoundException, SystemException {
 
 		for (int i = 1; i < 50; i++) {
-			validationService.verifyInitValue(d.get(0)); // READ
-			 validationService.validationNames(d.get(0)); // READ
-			 validationService.validationNames(d.get(0)); // READ
-			 validationService.verifyInitValue(d.get(0)); // READ
+			validationService.verifyInitValue(d.get(i)); // READ
+			 validationService.validationNames(d.get(i)); // READ
+			 validationService.validationNames(d.get(i)); // READ
+			 validationService.verifyInitValue(d.get(i)); // READ
 //			Thread.sleep(SLEEP_TIME_READ);
 		}
 		for (int i = 1; i < 50; i++) {
-			Damage damage = damageDao.find(d.get(0));
+			Damage damage = damageDao.find(d.get(i));
 			apiDamageRefactor.apiDamageValidationUpdates(damage.getIdDamage(),newName, increment);
 		}
 		Thread.sleep(SLEEP_TIME);

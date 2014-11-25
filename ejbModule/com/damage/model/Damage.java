@@ -37,8 +37,7 @@ public class Damage implements Serializable {
 	private long valueIni;
 
 	private long depositIni;
-	
-	private long version;
+
 
 	public Damage() {
 		super();
@@ -126,21 +125,12 @@ public class Damage implements Serializable {
 	}
 
 	public long getValueIni() {
-		return this.version;
+		return this.valueIni;
 	}
 
-	public void setValueIni(long version) {
-		this.version = version;
-	}
-	
-	/* Version used for optimistic locking */
-	@Version
-	public long getVersion() {
-		return version;
+	public void setValueIni(long valueIni) {
+		this.valueIni = valueIni;
 	}
 
-	public void setVersion(long version) {
-		this.version = version;
-	}
 
 }
