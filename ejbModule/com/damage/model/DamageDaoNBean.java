@@ -20,7 +20,7 @@ public class DamageDaoNBean implements DamageDaoN {
 
 	@PersistenceContext(unitName = "DNDN",  type = PersistenceContextType.TRANSACTION)
 	private EntityManager em;
-
+	
 	public DamageDaoNBean() {
 
 	}

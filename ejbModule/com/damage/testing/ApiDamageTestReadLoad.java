@@ -24,6 +24,8 @@ public class ApiDamageTestReadLoad extends AbstractJavaSamplerClient {
 	private long damage1, damage2;
 	private ValidationService validationService;
 	private final long INCREMENT = 200;
+	private final int ROWSINI = 60;
+	private final int ROWSFIN = 80;
 	private DamageDaoN damageDao;
 	private List<Long> dList;
 
@@ -88,7 +90,7 @@ public class ApiDamageTestReadLoad extends AbstractJavaSamplerClient {
 
 	public List<Long> initDamages() throws InstanceNotFoundException {
 		List<Long> dList = new ArrayList<Long>();
-		for (int i=50; i<70; i++)
+		for (int i=ROWSINI; i<=ROWSFIN; i++)
 			dList.add((long) i);
 		
 		return dList;

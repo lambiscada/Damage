@@ -28,8 +28,9 @@ public class ApiDamageTest {
 	private long damage1, damage2;
 	private ValidationService validationService;
 	private DamageDaoN damageDao;
-
 	private final long INCREMENT = 200;
+	private final int ROWS = 50;
+	private List<Long> dList;
 
 	public ApiDamageTest() {
 
@@ -57,29 +58,24 @@ public class ApiDamageTest {
 	@Test
 	public void testApiDamage() throws NamingException, InterruptedException,
 			NotValidDamageException, InstanceNotFoundException {
-		List<Long> dList = initDamages();
+		dList = initDamages();
 		String newName = "name" + (System.currentTimeMillis() % 100000000);
+		
 		long startTime = System.currentTimeMillis();
-
-		apiDamage.apiDamageValidationService(dList.get(0), dList.get(0),
-				newName, INCREMENT);
+		apiDamage.apiDamageValidationService(dList, newName, INCREMENT);
 		long stopTime = System.currentTimeMillis();
 		long executionTime = (stopTime - startTime);
-		 System.out.println("ApiDamageValidationService execution time:  "
-		 + executionTime + "ms");
+//		 System.out.println("ApiDamageValidationService execution time:  "
+//		 + executionTime + "ms");
 		
 
 	}
-
-//	 public List<Damage> initDamages() throws InstanceNotFoundException {
-//	 List<Damage> dList = new ArrayList<Damage>();
-//	 dList.add(damageDao.find(7));
-//	 return dList;
-//	 }
 	
 	public List<Long> initDamages() throws InstanceNotFoundException {
 		List<Long> dList = new ArrayList<Long>();
-		dList.add((long) 7);
+		for (int i = 1; i <= ROWS; i++)
+			dList.add((long) i);
+
 		return dList;
 	}
 }

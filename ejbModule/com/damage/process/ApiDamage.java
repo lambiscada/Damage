@@ -41,90 +41,39 @@ public class ApiDamage implements ApiDamageI {
 
 	
 	@Override
-	public void apiDamageValidationService(List<Long> d,
+	public void apiDamageValidationService(List<Long> idList,
 			String newName, long increment) throws InterruptedException,
 			NotValidDamageException, InstanceNotFoundException {
-		for (int i = 1;i<50;i++) {
-			Damage damage = damageDao.find(d.get(i));
+		for (int i = 1;i<idList.size();i++) {
+			Damage damage = damageDao.find(idList.get(i));
 			validationService.setNewNames(damage.getIdDamage(), newName); // WRITE
 			validationService.updateDepositValue(damage.getIdDamage(), increment); // WRITE
 			damageDao.flush();	
 		}
 		Thread.sleep(SLEEP_TIME);
 		
-		for (int i = 1;i<50;i++) {
-		validationService.verifyInitValue(d.get(i)); // READ
-		validationService.validationNames(d.get(i)); // READ								
-		validationService.validationNames(d.get(i)); // READ
-		validationService.verifyInitValue(d.get(i)); // READ
+		for (int i = 1;i<idList.size();i++) {
+		validationService.verifyInitValue(idList.get(i)); // READ
+		validationService.validationNames(idList.get(i)); // READ								
+		validationService.validationNames(idList.get(i)); // READ
+		validationService.verifyInitValue(idList.get(i)); // READ
 		}
-//		Thread.sleep(SLEEP_TIME_READ);
-		damageDao.flush();
-		
-	}
-	
-	@Override
-	public void apiDamageValidationService(Damage damage1, Damage damage2,
-			String newName, long increment) throws InterruptedException,
-			NotValidDamageException, InstanceNotFoundException {
-		validationService.setNewNames(damage1.getIdDamage(), newName); // WRITE Operation
-		validationService.updateDepositValue(damage1.getIdDamage(), increment); // WRITE
-		damageDao.flush();
-		Thread.sleep(SLEEP_TIME);
-		
-		validationService.verifyInitValue(damage1); // READ
-		validationService.validationNames(damage1); // READ								
-		validationService.validationNames(damage1); // READ
-		validationService.verifyInitValue(damage1); // READ
-		Thread.sleep(SLEEP_TIME_READ);
-		
 		damageDao.flush();
 		
 	}
 
-	@Override
-	public void apiDamageValidationService(long damage, long damage2,
-			String newName, long increment) throws InterruptedException,
-			NotValidDamageException, InstanceNotFoundException {
-
-		validationService.setNewNames(damage, newName); // WRITE Operation
-		validationService.updateDepositValue(damage, increment); // WRITE
-		damageDao.flush();
-		Thread.sleep(SLEEP_TIME);
-		
-		validationService.verifyInitValue(damage); // READ
-		validationService.validationNames(damage); // READ								
-		validationService.validationNames(damage); // READ
-		validationService.verifyInitValue(damage); // READ
-		Thread.sleep(SLEEP_TIME_READ);
-		
-		damageDao.flush();
-		
-	}
 
 	/*
 	 * With this method we can proof read some object while another thread is
 	 * executing the main method to be proof
 	 */
 	@Override
-	public void apiDamageReadOperations(long damage)
+	public void apiDamageReadOperations(List<Long> idList)
 			throws NotValidDamageException, InstanceNotFoundException,
 			InterruptedException {
-		Damage damage1 = damageDao.find(damage);
-		validationService.verifyInitValue(damage1);
-
-	}
-
-	/*
-	 * With this method we can proof read some object while another thread is
-	 * executing the main method to be proof
-	 */
-	@Override
-	public void apiDamageReadOperations(List<Long> d)
-			throws NotValidDamageException, InstanceNotFoundException,
-			InterruptedException {
-		for (int i = 1; i<d.size(); i++)
-			validationService.verifyInitValue(d.get(i));
+		for (int i = 1; i<idList.size(); i++){
+			validationService.verifyInitValue(idList.get(i));
+		}
 	}
 
 }

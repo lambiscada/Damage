@@ -29,7 +29,7 @@ public class ApiDamageRefactorLowTestLoad extends AbstractJavaSamplerClient {
 	private long executionTime;
 	private ValidationService validationService;
 	private DamageDaoN damageDao;
-//	private List<Damage> dList;
+	private final int ROWS = 50;
 	private List<Long> dList;
 	private final long INCREMENT = 200;
 
@@ -93,25 +93,15 @@ public class ApiDamageRefactorLowTestLoad extends AbstractJavaSamplerClient {
 		return result;
 
 	}
-
-//	 public List<Damage> initDamages() throws InstanceNotFoundException {
-//	 List<Damage> dList = new ArrayList<Damage>();
-//	 dList.add(damageDao.find(7));
-//	 return dList;
-//	 }
-//	public List<Long> initDamages() throws InstanceNotFoundException {
-//		List<Long> dList = new ArrayList<Long>();
-//		dList.add((long) 7);
-//		return dList;
-//	}
 	
 	public List<Long> initDamages() throws InstanceNotFoundException {
 		List<Long> dList = new ArrayList<Long>();
-		for (int i = 1; i < 100; i++)
+		for (int i = 1; i <= ROWS; i++)
 			dList.add((long) i);
 
 		return dList;
 	}
+	
 
 	@Override
 	public Arguments getDefaultParameters() {
