@@ -11,16 +11,9 @@ import com.damage.model.Damage;
 @Remote
 public interface ValidationService {
 
-	long verifyInitValue(Damage damage) throws NotValidDamageException,
-			InstanceNotFoundException;
-	long verifyInitValue(long damageId) throws NotValidDamageException,
-	InstanceNotFoundException;
-
 	boolean validationNames(long damageId) throws NotValidDamageException,
 			InstanceNotFoundException;
 
-	void setNewNames(Damage damage, String newName) throws InstanceNotFoundException;
-	
 	void setNewNames(long damageId, String newName) throws InstanceNotFoundException;
 
 	boolean verifDates(long damageId) throws NotValidDamageException, InstanceNotFoundException;
@@ -37,9 +30,10 @@ public interface ValidationService {
 			String description, int level, String location, String nameDamage,
 			long valueIni, long depositIni);
 
-	void removeDamage(Damage damage) throws InstanceNotFoundException;
+	void removeDamage(Damage damage) throws InstanceNotFoundException, InstanceNotFoundException;
 
-	boolean validationNames(Damage damage) throws NotValidDamageException,
+	long verifyInitValue(long damageId) throws NotValidDamageException,
 			InstanceNotFoundException;
+
 
 }

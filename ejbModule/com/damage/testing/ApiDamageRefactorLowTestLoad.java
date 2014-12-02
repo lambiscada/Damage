@@ -84,11 +84,7 @@ public class ApiDamageRefactorLowTestLoad extends AbstractJavaSamplerClient {
 		return result;
 	}
 
-	// public List<Damage> initDamages() throws InstanceNotFoundException {
-	// List<Damage> dList = new ArrayList<Damage>();
-	// dList.add(damageDao.find(7));
-	// return dList;
-	// }
+	
 	public List<Long> initDamages() throws InstanceNotFoundException {
 		List<Long> dList = new ArrayList<Long>();
 		dList.add((long) 7);
