@@ -14,7 +14,6 @@ import com.damage.exception.InstanceNotFoundException;
  */
 
 @Stateless
-@TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class DamageDaoNBean implements DamageDaoN {
 
 
@@ -43,13 +42,11 @@ public class DamageDaoNBean implements DamageDaoN {
 	}
 
 	@Override
-	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public Damage find(long idDamage) throws InstanceNotFoundException {
 		return em.find(Damage.class, idDamage);
 	}
 
 	@Override
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void flush() {
 //		System.out.println(em.getFlushMode());
 		em.flush();
