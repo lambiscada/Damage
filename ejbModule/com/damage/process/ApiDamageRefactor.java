@@ -3,18 +3,13 @@ package com.damage.process;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.EJBContext;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
 import javax.transaction.TransactionSynchronizationRegistry;
-import javax.transaction.UserTransaction;
 
 import com.damage.damageService.ValidationService;
 import com.damage.exception.InstanceNotFoundException;
@@ -68,13 +63,18 @@ public class ApiDamageRefactor implements ApiDamageRefactorI {
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void apiDamageValidationUpdates(long damage, String newName,
-			long increment) throws InstanceNotFoundException, InterruptedException {
+			long increment) throws InterruptedException {
 		/* High Concurrency transaction strategy */
 		/* Wrap updates within a transaction */
+		try {
 		validationService.setNewNames(damage, newName); // WRITE Operation
 		validationService.updateDepositValue(damage, increment); // WRITE
 		damageDao.flush();
 		Thread.sleep(SLEEP_TIME);
+		} catch (InstanceNotFoundException e)
+		{
+			context.setRollbackOnly();
+		}
 	}
 	
 	

@@ -74,16 +74,7 @@ public class ApiDamageRefactorLowTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		long stopTime = System.currentTimeMillis();
-//		long executionTime = (stopTime - startTime);
-//		 System.out.println("ApiDamageValidationService execution time:  "
-//		 + executionTime + "ms");
-//		
-//		System.out.println("ejecucion:  "+execution);
-
 	}
-
-	
 
 	 public List<Long> initDamages() throws InstanceNotFoundException {
 	 List<Long> dList = new ArrayList<Long>();

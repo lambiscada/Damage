@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -31,6 +32,8 @@ public class ApiDamage implements ApiDamageI {
 	@EJB
 	private ValidationService validationService;
 
+	@Resource
+	SessionContext context;
 	@Resource(lookup = "java:comp/TransactionSynchronizationRegistry")
 	TransactionSynchronizationRegistry tsr;
 
@@ -42,7 +45,8 @@ public class ApiDamage implements ApiDamageI {
 	@Override
 	public void apiDamageValidationService(long d, long damage2,
 			String newName, long increment) throws InterruptedException,
-			NotValidDamageException, InstanceNotFoundException {
+			NotValidDamageException {
+		try {
 		Damage damage = damageDao.find(d);
 		validationService.setNewNames(damage.getIdDamage(), newName); // WRITE Operation
 		validationService.updateDepositValue(damage.getIdDamage(), increment); // WRITE
@@ -56,6 +60,11 @@ public class ApiDamage implements ApiDamageI {
 		Thread.sleep(SLEEP_TIME_READ);
 		
 		damageDao.flush();
+		} catch (InstanceNotFoundException e)
+		{
+			context.setRollbackOnly();
+		}
+	
 		
 	}
 	
