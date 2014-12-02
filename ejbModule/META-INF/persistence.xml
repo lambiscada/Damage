@@ -2,19 +2,28 @@
 <persistence version="2.0"
 	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
-	<persistence-unit name="DNDN">
-		<jta-data-source>java:/damageDS</jta-data-source>
+	<persistence-unit name="DNDN1">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider> 
+		<jta-data-source>java:jboss/datasources/DSXA1</jta-data-source>
+		<class>com.sample.model.Property</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.ibm.db2.jcc.DB2Driver" />
-<!-- 			<property name="javax.persistence.jdbc.user" value="db2inst1" /> -->
-<!-- 			<property name="javax.persistence.jdbc.password" value="ub31238" /> -->
-<!-- 			<property name="javax.persistence.jdbc.url" value="jdbc:db2://localhost:50000/DAMAGEDB" /> -->
 			<property name="hibernate.show_sql" value="true" />
-<!-- 			<property name="hibernate.format_sql" value="true" /> -->
-<!-- 			<property name="hibernate.generate_statistics" value="true" /> -->
 			<property name="hibernate.use_sql_comments" value="true" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.DB2Dialect" />
+			 <property name="jboss.entity.manager.factory.jndi.name" value="java:/myProjectEntityManagerFactory"/> 
 		</properties>
 	</persistence-unit>
-</persistence>
- 
+	<persistence-unit name="DNDN2">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider> 
+		<jta-data-source>java:jboss/datasources/DSXA2</jta-data-source>
+		<class>com.sample.model.Property</class>
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="com.ibm.db2.jcc.DB2Driver" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.use_sql_comments" value="true" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.DB2Dialect" />
+			 <property name="jboss.entity.manager.factory.jndi.name" value="java:/myProjectEntityManagerFactory"/> 
+		</properties>
+	</persistence-unit>
+</persistence>  

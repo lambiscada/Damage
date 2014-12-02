@@ -1,15 +1,16 @@
 package com.damage.testing;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
 
-import javax.annotation.Resource;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.naming.NameClassPair;
+import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
-import javax.transaction.TransactionSynchronizationRegistry;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -18,7 +19,6 @@ import org.junit.Test;
 import com.damage.damageService.ValidationService;
 import com.damage.exception.InstanceNotFoundException;
 import com.damage.exception.NotValidDamageException;
-import com.damage.model.Damage;
 import com.damage.model.DamageDaoN;
 import com.damage.process.ApiDamageI;
 
@@ -31,6 +31,13 @@ public class ApiDamageTest {
 	private final long INCREMENT = 200;
 	private final int ROWS = 50;
 	private List<Long> dList;
+	@PersistenceContext(unitName = "DNDN1")
+	private EntityManager em1;
+	@PersistenceContext(unitName = "DNDN2")
+	private EntityManager em2;
+
+	  javax.sql.XADataSource xaDS1;
+	  javax.sql.XADataSource xaDS2;
 
 	public ApiDamageTest() {
 
@@ -47,6 +54,9 @@ public class ApiDamageTest {
 	@Before
 	public void setup() throws NamingException {
 
+		xaDS1 = (javax.sql.XADataSource) initialContext.lookup("java:jboss/datasources/DSXA1");
+//		xaDS2 = (javax.sql.XADataSource) initialContext.lookup("java:/DSXA2");
+
 		apiDamage = (ApiDamageI) initialContext
 				.lookup("ejb:/Damage//ApiDamage!com.damage.process.ApiDamageI");
 		validationService = (ValidationService) initialContext
@@ -60,17 +70,16 @@ public class ApiDamageTest {
 			NotValidDamageException, InstanceNotFoundException {
 		dList = initDamages();
 		String newName = "name" + (System.currentTimeMillis() % 100000000);
-		
+//		em1.flush();
 		long startTime = System.currentTimeMillis();
-		apiDamage.apiDamageValidationService(dList, newName, INCREMENT);
+//		apiDamage.apiDamageValidationService(dList, newName, INCREMENT,em1);
 		long stopTime = System.currentTimeMillis();
 		long executionTime = (stopTime - startTime);
-//		 System.out.println("ApiDamageValidationService execution time:  "
-//		 + executionTime + "ms");
-		
+		// System.out.println("ApiDamageValidationService execution time:  "
+		// + executionTime + "ms");
 
 	}
-	
+
 	public List<Long> initDamages() throws InstanceNotFoundException {
 		List<Long> dList = new ArrayList<Long>();
 		for (int i = 1; i <= ROWS; i++)

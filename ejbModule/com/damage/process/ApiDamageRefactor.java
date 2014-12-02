@@ -49,20 +49,20 @@ public class ApiDamageRefactor implements ApiDamageRefactorI {
 			NotValidDamageException, InstanceNotFoundException, SystemException {
 		
 		for (int i = 1; i < idList.size(); i++) {
-			Damage damage = damageDao.find(idList.get(i));
-			dList.add(damage);
+//			Damage damage = damageDao.find(idList.get(i));
+//			dList.add(damage);
 		}
 		for (int i = 1; i < dList.size(); i++) {
-			validationService.verifyInitValue(dList.get(i)); // READ
-			 validationService.validationNames(dList.get(i)); // READ
-			 validationService.validationNames(dList.get(i)); // READ
-			 validationService.verifyInitValue(dList.get(i)); // READ
+//			validationService.verifyInitValue(dList.get(i)); // READ
+//			 validationService.validationNames(dList.get(i)); // READ
+//			 validationService.validationNames(dList.get(i)); // READ
+//			 validationService.verifyInitValue(dList.get(i)); // READ
 		}
 		for (int i = 1; i < dList.size(); i++) {
 			apiDamageRefactor.apiDamageValidationUpdates(dList.get(i).getIdDamage(),newName, increment);
 		}
 		Thread.sleep(SLEEP_TIME);
-		damageDao.flush();
+//		damageDao.flush();
 
 		return 0;
 	}
@@ -73,9 +73,9 @@ public class ApiDamageRefactor implements ApiDamageRefactorI {
 			InterruptedException {
 		/* High Concurrency transaction strategy */
 		/* Wrap updates within a transaction */
-		validationService.setNewNames(damage, newName); // WRITE Operation
-		validationService.updateDepositValue(damage, increment); // WRITE
-		damageDao.flush();
+//		validationService.setNewNames(damage, newName); // WRITE Operation
+//		validationService.updateDepositValue(damage, increment); // WRITE
+//		damageDao.flush();
 	}
 
 }

@@ -1,6 +1,5 @@
 package com.damage.process;
 
-import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -10,6 +9,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import javax.persistence.EntityManager;
 import javax.transaction.TransactionSynchronizationRegistry;
 
 import com.damage.damageService.ValidationService;
@@ -35,6 +35,7 @@ public class ApiDamage implements ApiDamageI {
 	@Resource(lookup = "java:comp/TransactionSynchronizationRegistry")
 	TransactionSynchronizationRegistry tsr;
 
+    
 	public ApiDamage() {
 
 	}
@@ -42,23 +43,30 @@ public class ApiDamage implements ApiDamageI {
 	
 	@Override
 	public void apiDamageValidationService(List<Long> idList,
-			String newName, long increment) throws InterruptedException,
+			String newName, long increment, EntityManager em) throws InterruptedException,
 			NotValidDamageException, InstanceNotFoundException {
+		
+		
+	    /*
+	      * Note that javax.sql.XADataSource is used instead of a specific
+	      * driver implementation such as com.ibm.db2.jcc.DB2XADataSource.
+	      */
+
 		for (int i = 1;i<idList.size();i++) {
-			Damage damage = damageDao.find(idList.get(i));
-			validationService.setNewNames(damage.getIdDamage(), newName); // WRITE
-			validationService.updateDepositValue(damage.getIdDamage(), increment); // WRITE
-			damageDao.flush();	
+			Damage damage = damageDao.find(idList.get(i),em);
+//			validationService.setNewNames(damage.getIdDamage(), newName,em); // WRITE
+//			validationService.updateDepositValue(damage.getIdDamage(), increment,em); // WRITE
+			damageDao.flush(em);	
 		}
 		Thread.sleep(SLEEP_TIME);
 		
 		for (int i = 1;i<idList.size();i++) {
-		validationService.verifyInitValue(idList.get(i)); // READ
-		validationService.validationNames(idList.get(i)); // READ								
-		validationService.validationNames(idList.get(i)); // READ
-		validationService.verifyInitValue(idList.get(i)); // READ
+//		validationService.verifyInitValue(idList.get(i)); // READ
+//		validationService.validationNames(idList.get(i)); // READ								
+//		validationService.validationNames(idList.get(i)); // READ
+//		validationService.verifyInitValue(idList.get(i)); // READ
 		}
-		damageDao.flush();
+		damageDao.flush(em);
 		
 	}
 
@@ -72,7 +80,7 @@ public class ApiDamage implements ApiDamageI {
 			throws NotValidDamageException, InstanceNotFoundException,
 			InterruptedException {
 		for (int i = 1; i<idList.size(); i++){
-			validationService.verifyInitValue(idList.get(i));
+//			validationService.verifyInitValue(idList.get(i));
 		}
 	}
 

@@ -18,39 +18,39 @@ import com.damage.exception.InstanceNotFoundException;
 public class DamageDaoNBean implements DamageDaoN {
 
 
-	@PersistenceContext(unitName = "DNDN",  type = PersistenceContextType.TRANSACTION)
-	private EntityManager em;
+//	@PersistenceContext(unitName = "DNDN",  type = PersistenceContextType.TRANSACTION)
+//	private EntityManager em;
 	
 	public DamageDaoNBean() {
 
 	}
 
 	@Override
-	public Damage save(Damage damage) {				//SQL-insert
+	public Damage save(Damage damage,EntityManager em) {				//SQL-insert
 		em.persist(damage);
 		return em.find(Damage.class, damage.getIdDamage());
 	}
 
 	@Override
-	public void update(Damage damage) {	
+	public void update(Damage damage,EntityManager em) {	
 		em.merge(damage);
 	}
 
 	@Override
-	public void remove(Damage damage) throws InstanceNotFoundException {
+	public void remove(Damage damage,EntityManager em) throws InstanceNotFoundException {
 		em.remove(em.contains(damage) ? damage : em.merge(damage));
 
 	}
 
 	@Override
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
-	public Damage find(long idDamage) throws InstanceNotFoundException {
+	public Damage find(long idDamage,EntityManager em) throws InstanceNotFoundException {
 		return em.find(Damage.class, idDamage);
 	}
 
 	@Override
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void flush() {
+	public void flush(EntityManager em) {
 //		System.out.println(em.getFlushMode());
 		em.flush();
 

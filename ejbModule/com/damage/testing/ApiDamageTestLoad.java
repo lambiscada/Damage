@@ -84,7 +84,7 @@ public class ApiDamageTestLoad extends AbstractJavaSamplerClient {
 		result.sampleStart();
 		try {
 			String newName = "name" + (System.currentTimeMillis() % 100000000);
-			apiDamage.apiDamageValidationService(dList, newName, INCREMENT);
+			apiDamage.apiDamageValidationService(dList, newName, INCREMENT, null);
 
 		} catch (InterruptedException | NotValidDamageException
 				| InstanceNotFoundException e) {
