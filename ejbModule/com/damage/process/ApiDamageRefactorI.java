@@ -16,7 +16,7 @@ public interface ApiDamageRefactorI {
 
 	
 	long apiDamageValidationService(Damage damage, Damage damage2, String newName,
-			long increment) throws InstanceNotFoundException;
+			long increment) throws InstanceNotFoundException, NotValidDamageException;
 
 
 	void apiDamageReadOperations(long damage)

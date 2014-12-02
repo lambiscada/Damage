@@ -50,7 +50,7 @@ public class ApiDamageRefactor implements ApiDamageRefactorI {
 
 	@Override
 	public long apiDamageValidationService(Damage damage, Damage damage2,
-			String newName, long increment) throws InstanceNotFoundException  {
+			String newName, long increment) throws InstanceNotFoundException, NotValidDamageException  {
 		UserTransaction txn = context.getUserTransaction();
 		long executionTime=0;
 		try {
@@ -69,7 +69,7 @@ public class ApiDamageRefactor implements ApiDamageRefactorI {
 		txn.commit(); 	
 //		long stopTime = System.currentTimeMillis();
 //		executionTime = (stopTime - start);
-		} catch(InstanceNotFoundException |  RollbackException | InterruptedException | HeuristicMixedException | SystemException | NotValidDamageException 
+		} catch(InstanceNotFoundException |  RollbackException | InterruptedException | HeuristicMixedException | SystemException  
 				| NotSupportedException |  HeuristicRollbackException e) {
 			if (txn != null) {
 				try {

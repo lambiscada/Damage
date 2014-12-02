@@ -19,8 +19,6 @@ import com.damage.model.DamageDaoN;
  */
 
 @Stateless
-@TransactionManagement(TransactionManagementType.CONTAINER)
-@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class ValidationServiceBean implements ValidationService {
 	@EJB
 	private DamageDaoN damageDao;
@@ -29,7 +27,6 @@ public class ValidationServiceBean implements ValidationService {
 	}
 
 	@Override
-	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public long verifyInitValue(Damage damage) throws NotValidDamageException,
 			InstanceNotFoundException {
 		long value = damage.getValueIni();
@@ -40,7 +37,6 @@ public class ValidationServiceBean implements ValidationService {
 	}
 
 	@Override
-	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public long verifyInitValue(long damageId) throws NotValidDamageException,
 			InstanceNotFoundException {
 		long value = damageDao.find(damageId).getValueIni();
@@ -51,7 +47,6 @@ public class ValidationServiceBean implements ValidationService {
 	}
 
 	@Override
-	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public boolean validationNames(long damageId)
 			throws NotValidDamageException, InstanceNotFoundException {
 		if (damageDao.find(damageId).getClientName().isEmpty())
@@ -61,7 +56,6 @@ public class ValidationServiceBean implements ValidationService {
 	}
 	
 	@Override
-	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public boolean validationNames(Damage damage)
 			throws NotValidDamageException, InstanceNotFoundException {
 		if (damage.getClientName().isEmpty())
@@ -84,7 +78,6 @@ public class ValidationServiceBean implements ValidationService {
 
 	}
 	@Override
-	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public boolean verifDates(long damageId) throws NotValidDamageException, InstanceNotFoundException {			//SQL-SELECT 
 		Calendar currentDate = Calendar.getInstance();
 		Damage damage = damageDao.find(damageId);
@@ -94,7 +87,6 @@ public class ValidationServiceBean implements ValidationService {
 			throw new NotValidDamageException(damage.getIdDamage());
 	}
 	@Override
-	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public boolean verifDates(Damage damage) throws NotValidDamageException, InstanceNotFoundException {			//SQL-SELECT 
 		Calendar currentDate = Calendar.getInstance();
 		if (damage.getDateAct().before(currentDate))
@@ -104,7 +96,6 @@ public class ValidationServiceBean implements ValidationService {
 	}
 
 	@Override
-	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public Damage compareDamageLevel(long damage1Id, long damage2Id) throws InstanceNotFoundException { 
 		Damage d1 = damageDao.find(damage1Id);
 		Damage d2 = damageDao.find(damage2Id);
@@ -117,7 +108,6 @@ public class ValidationServiceBean implements ValidationService {
 	}
 	
 	@Override
-	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public Damage compareDamageLevel(Damage damage1, Damage damage2) throws InstanceNotFoundException { 
 		int level1 = damage1.getLevelDamage();
 		int level2 = damage2.getLevelDamage();

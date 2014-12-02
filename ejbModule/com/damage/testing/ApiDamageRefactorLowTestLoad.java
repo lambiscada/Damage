@@ -15,6 +15,7 @@ import org.apache.jmeter.samplers.SampleResult;
 
 import com.damage.damageService.ValidationService;
 import com.damage.exception.InstanceNotFoundException;
+import com.damage.exception.NotValidDamageException;
 import com.damage.model.Damage;
 import com.damage.model.DamageDaoN;
 import com.damage.process.ApiDamageRefactorI;
@@ -80,6 +81,8 @@ public class ApiDamageRefactorLowTestLoad extends AbstractJavaSamplerClient {
 				executionTime = apiDamageRefactor.apiDamageValidationService(
 						dList.get(0), dList.get(0), newName, INCREMENT);
 			} catch (SecurityException | IllegalStateException e) {
+				e.printStackTrace();
+			} catch (NotValidDamageException e) {
 				e.printStackTrace();
 			}
 		} catch (InstanceNotFoundException e) {

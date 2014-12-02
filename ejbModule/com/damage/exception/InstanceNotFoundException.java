@@ -3,7 +3,6 @@ package com.damage.exception;
 import javax.ejb.ApplicationException;
 
 @SuppressWarnings("serial")
-@ApplicationException(rollback=true)
 public class InstanceNotFoundException extends Exception {
 
 	private Object key;
