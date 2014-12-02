@@ -30,4 +30,4 @@ INSERT INTO Damage(nameDamage,valueIni,locationDamage,dateAct,description,levelD
 
 INSERT INTO Damage(nameDamage,valueIni,locationDamage,dateAct,description,levelDamage,depositIni,clientName) values('Rotura de paneles','5200','Main Street','2014-03-10','Que desastre','1','500','Lorezo');
 
-INSERT INTO Damage(nameDamage,valueIni,locationDamage,dateAct,description,levelDamage,depositIni,clientName) values('Siestro total','500','Main Street','2014-03-10','Que desastre','1','500','Monica');
+INSERT INTO Damage(nameDamage,valueIni,locationDamage,dateAct,description,levelDamage,depositIni,clientName) values('Siestro total','500','Main Street','2014-03-10','Que desastre','1','500','');

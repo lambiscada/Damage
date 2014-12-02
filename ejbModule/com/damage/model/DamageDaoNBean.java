@@ -1,11 +1,10 @@
 package com.damage.model;
 
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 
 import com.damage.exception.InstanceNotFoundException;
 
@@ -14,11 +13,10 @@ import com.damage.exception.InstanceNotFoundException;
  */
 
 @Stateless
-//@TransactionAttribute(TransactionAttributeType.MANDATORY)
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class DamageDaoNBean implements DamageDaoN {
-
-
-	@PersistenceContext(unitName = "DNDN",  type = PersistenceContextType.TRANSACTION)
+	
+	@PersistenceContext(unitName = "DNDN")
 	private EntityManager em;
 
 	public DamageDaoNBean() {
@@ -32,7 +30,7 @@ public class DamageDaoNBean implements DamageDaoN {
 	}
 
 	@Override
-	public void update(Damage damage) {	
+	public void update(Damage damage) {
 		em.merge(damage);
 	}
 
@@ -43,15 +41,12 @@ public class DamageDaoNBean implements DamageDaoN {
 	}
 
 	@Override
-//	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public Damage find(long idDamage) throws InstanceNotFoundException {
 		return em.find(Damage.class, idDamage);
 	}
 
 	@Override
-//	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void flush() {
-//		System.out.println(em.getFlushMode());
 		em.flush();
 
 	}

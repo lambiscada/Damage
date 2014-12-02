@@ -1,24 +1,16 @@
 package com.damage.testing;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.transaction.SystemException;
 
-import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.protocol.java.sampler.AbstractJavaSamplerClient;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
-import org.apache.jmeter.threads.JMeterContext;
-import org.apache.jmeter.threads.JMeterThread;
 import org.apache.jmeter.samplers.SampleResult;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 import com.damage.damageService.ValidationService;
 import com.damage.exception.InstanceNotFoundException;
@@ -26,7 +18,6 @@ import com.damage.exception.NotValidDamageException;
 import com.damage.model.Damage;
 import com.damage.model.DamageDaoN;
 import com.damage.process.ApiDamageI;
-import com.damage.process.ApiDamageRefactorI;
 
 public class ApiDamageTestLoad extends AbstractJavaSamplerClient {
 	private static Context initialContext;
@@ -86,8 +77,7 @@ public class ApiDamageTestLoad extends AbstractJavaSamplerClient {
 		try {
 			String newName = "name" + (System.currentTimeMillis()%100000000);
 			apiDamage.apiDamageValidationService(dList.get(0),dList.get(0), newName, INCREMENT);
-		} catch (InterruptedException | NotValidDamageException
-				| InstanceNotFoundException e) {
+		} catch (InterruptedException | NotValidDamageException e) {
 			e.printStackTrace();
 		}
 
@@ -102,9 +92,5 @@ public class ApiDamageTestLoad extends AbstractJavaSamplerClient {
 		dList.add(damageDao.find(7));
 		return dList;
 	}
-//	public List<Long> initDamages() throws InstanceNotFoundException {
-//		List<Long> dList = new ArrayList<Long>();
-//		dList.add((long) 7);
-//		return dList;
-//	}
+
 }

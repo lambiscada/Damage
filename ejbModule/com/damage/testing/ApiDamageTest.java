@@ -1,15 +1,12 @@
 package com.damage.testing;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
 
-import javax.annotation.Resource;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.transaction.TransactionSynchronizationRegistry;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -76,10 +73,5 @@ public class ApiDamageTest {
 	 dList.add(damageDao.find(7));
 	 return dList;
 	 }
-	
-//	public List<Long> initDamages() throws InstanceNotFoundException {
-//		List<Long> dList = new ArrayList<Long>();
-//		dList.add((long) 7);
-//		return dList;
-//	}
+
 }
