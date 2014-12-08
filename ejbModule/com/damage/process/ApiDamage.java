@@ -1,5 +1,7 @@
 package com.damage.process;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
@@ -41,13 +43,13 @@ public class ApiDamage implements ApiDamageI {
 
 	@Override
 	public void apiDamageValidationService(Damage damage1, Damage damage2,
-			String newName, long increment) throws InterruptedException, NotValidDamageException {
+			String newName, long increment) throws NotValidDamageException, InterruptedException {
 		try {
 		validationService.setNewNames(damage1.getIdDamage(), newName); // WRITE Operation
 		validationService.updateDepositValue(damage1.getIdDamage(), increment); // WRITE
 		damageDao.flush();
 		Thread.sleep(SLEEP_TIME);
-		
+
 		validationService.verifyInitValue(damage1); // READ
 		validationService.validationNames(damage1); // READ	
 		validationService.verifDates(damage1); //READ
@@ -57,7 +59,7 @@ public class ApiDamage implements ApiDamageI {
 		} catch (InstanceNotFoundException  up) {
 			context.setRollbackOnly(); 
 		}
-		
+	
 	}
 
 
@@ -69,8 +71,8 @@ public class ApiDamage implements ApiDamageI {
 	public void apiDamageReadOperations(long damage)
 			throws NotValidDamageException, InstanceNotFoundException,
 			InterruptedException {
-		Damage damage1 = damageDao.find(damage);
-		validationService.verifyInitValue(damage1);
+		Damage d = damageDao.find(damage);
+		validationService.verifyInitValue(d);
 
 	}
 

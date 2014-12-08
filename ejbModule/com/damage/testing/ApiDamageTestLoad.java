@@ -8,9 +8,11 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.protocol.java.sampler.AbstractJavaSamplerClient;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.apache.jmeter.samplers.SampleResult;
+import org.apache.jmeter.threads.JMeterContext;
 
 import com.damage.damageService.ValidationService;
 import com.damage.exception.InstanceNotFoundException;
@@ -27,8 +29,8 @@ public class ApiDamageTestLoad extends AbstractJavaSamplerClient {
 	private final long INCREMENT = 200;
 	private DamageDaoN damageDao;
 	private List<Damage> dList;
+	private long num;
 //	private List<Long> dList;
-	
 	
 	public ApiDamageTestLoad() {
 		super();
@@ -38,11 +40,20 @@ public class ApiDamageTestLoad extends AbstractJavaSamplerClient {
 	public void setupTest(JavaSamplerContext context) {
 
 	}
+	
+	@Override
+    public Arguments getDefaultParameters() {
+        Arguments defaultParameters = new Arguments();
+        defaultParameters.addArgument("NUM", "${__threadNum}");
+        return defaultParameters;
+    }
 
 	public SampleResult runTest(JavaSamplerContext context) {
 		SampleResult result = new SampleResult();
 		Properties properties = new Properties();
 		properties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
+		num  = context.getIntParameter("NUM");
+		
 		try {
 			initialContext = new InitialContext(properties);
 		} catch (NamingException e1) {
@@ -77,7 +88,7 @@ public class ApiDamageTestLoad extends AbstractJavaSamplerClient {
 		try {
 			String newName = "name" + (System.currentTimeMillis()%100000000);
 			apiDamage.apiDamageValidationService(dList.get(0),dList.get(0), newName, INCREMENT);
-		} catch (InterruptedException | NotValidDamageException e) {
+		} catch (InterruptedException | NotValidDamageException  e) {
 			e.printStackTrace();
 		}
 
@@ -89,8 +100,11 @@ public class ApiDamageTestLoad extends AbstractJavaSamplerClient {
 
 	public List<Damage> initDamages() throws InstanceNotFoundException {
 		List<Damage> dList = new ArrayList<Damage>();
-		dList.add(damageDao.find(7));
+		dList.add(damageDao.find(num));
+//		dList.add(damageDao.find(7));
 		return dList;
 	}
+
+	
 
 }

@@ -52,7 +52,7 @@ public class ApiDamageRefactor implements ApiDamageRefactorI {
 		validationService.verifDates(damage1); //READ
 		validationService.compareDamageLevel(damage1, damage1);
 		Thread.sleep(SLEEP_TIME_READ);
-
+		
 		damageDao.flush();
 		long startTime = System.currentTimeMillis();
 		apiDamageRefactor.apiDamageValidationUpdates(damage1.getIdDamage(), newName, increment);
