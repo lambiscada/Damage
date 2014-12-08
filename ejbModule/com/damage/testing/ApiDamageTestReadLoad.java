@@ -8,6 +8,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.protocol.java.sampler.AbstractJavaSamplerClient;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.apache.jmeter.samplers.SampleResult;
@@ -26,7 +27,8 @@ public class ApiDamageTestReadLoad extends AbstractJavaSamplerClient {
 	private final long INCREMENT = 200;
 	private DamageDaoN damageDao;
 	private List<Long> dList;
-
+	private long num;
+	
 	public ApiDamageTestReadLoad() {
 		super();
 	}
@@ -35,11 +37,18 @@ public class ApiDamageTestReadLoad extends AbstractJavaSamplerClient {
 	public void setupTest(JavaSamplerContext context) {
 
 	}
-
+	@Override
+    public Arguments getDefaultParameters() {
+        Arguments defaultParameters = new Arguments();
+        defaultParameters.addArgument("NUM", "${__threadNum}");
+        return defaultParameters;
+    }
+	
 	public SampleResult runTest(JavaSamplerContext context) {
 		SampleResult result = new SampleResult();
 		Properties properties = new Properties();
 		properties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
+		num  = context.getIntParameter("NUM");
 		try {
 			initialContext = new InitialContext(properties);
 		} catch (NamingException e1) {
@@ -87,7 +96,8 @@ public class ApiDamageTestReadLoad extends AbstractJavaSamplerClient {
 
 	public List<Long> initDamages() throws InstanceNotFoundException {
 		List<Long> dList = new ArrayList<Long>();
-		dList.add((long) 7);
+		dList.add(num);
+//		dList.add((long) 7);
 		return dList;
 	}
 

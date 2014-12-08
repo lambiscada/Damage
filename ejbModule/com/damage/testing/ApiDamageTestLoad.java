@@ -37,21 +37,25 @@ public class ApiDamageTestLoad extends AbstractJavaSamplerClient {
 	private DamageDaoN damageDao;
 //	private List<Damage> dList;
 	private List<Long> dList;
-	
+	private long num;
 	
 	public ApiDamageTestLoad() {
 		super();
 	}
 
 	@Override
-	public void setupTest(JavaSamplerContext context) {
-
-	}
-
+    public Arguments getDefaultParameters() {
+        Arguments defaultParameters = new Arguments();
+        defaultParameters.addArgument("NUM", "${__threadNum}");
+        return defaultParameters;
+    }
+	
 	public SampleResult runTest(JavaSamplerContext context) {
 		SampleResult result = new SampleResult();
 		Properties properties = new Properties();
 		properties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
+		num  = context.getIntParameter("NUM");
+
 		try {
 			initialContext = new InitialContext(properties);
 		} catch (NamingException e1) {
@@ -104,7 +108,8 @@ public class ApiDamageTestLoad extends AbstractJavaSamplerClient {
 //	}
 	public List<Long> initDamages() throws InstanceNotFoundException {
 		List<Long> dList = new ArrayList<Long>();
-		dList.add((long) 7);
+		dList.add(num);
+//		dList.add((long) 7);
 		return dList;
 	}
 }

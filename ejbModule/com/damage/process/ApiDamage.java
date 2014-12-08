@@ -64,6 +64,7 @@ public class ApiDamage implements ApiDamageI {
 		}
 	}
 
+
 	/*
 	 * With this method we can proof read some object while another thread is
 	 * executing the main method to be proof
