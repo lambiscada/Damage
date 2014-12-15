@@ -24,8 +24,8 @@ public class ApiDamageTestReadLoad extends AbstractJavaSamplerClient {
 	private long damage1, damage2;
 	private ValidationService validationService;
 	private final long INCREMENT = 200;
-	private final int ROWSINI = 60;
-	private final int ROWSFIN = 80;
+	private final int ROWSINI = 81;
+	private final int ROWSFIN = 101;
 	private DamageDaoN damageDao;
 	private List<Long> dList;
 

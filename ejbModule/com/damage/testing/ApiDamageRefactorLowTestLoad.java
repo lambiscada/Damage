@@ -29,7 +29,7 @@ public class ApiDamageRefactorLowTestLoad extends AbstractJavaSamplerClient {
 	private long executionTime;
 	private ValidationService validationService;
 	private DamageDaoN damageDao;
-	private final int ROWS = 50;
+	private final int ROWS = 80;
 	private List<Long> dList;
 	private final long INCREMENT = 200;
 
