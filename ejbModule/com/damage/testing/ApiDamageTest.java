@@ -29,7 +29,7 @@ public class ApiDamageTest {
 	private ValidationService validationService;
 	private DamageDaoN damageDao;
 	private final long INCREMENT = 200;
-	private final int ROWS = 50;
+	private final int ROWS = 80;
 	private List<Long> dList;
 
 	public ApiDamageTest() {

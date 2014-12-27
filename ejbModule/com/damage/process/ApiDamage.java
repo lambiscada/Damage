@@ -23,7 +23,7 @@ import com.damage.model.DamageDaoN;
  */
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
-@TransactionAttribute(TransactionAttributeType.REQUIRED)
+@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 public class ApiDamage implements ApiDamageI {
 	private final long SLEEP_TIME_READ = 6000;
 	private final long SLEEP_TIME = 2000;
@@ -41,6 +41,7 @@ public class ApiDamage implements ApiDamageI {
 
 	
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void apiDamageValidationService(List<Long> idList,
 			String newName, long increment) throws InterruptedException,
 			NotValidDamageException, InstanceNotFoundException {
