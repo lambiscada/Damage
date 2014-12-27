@@ -4,26 +4,26 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 	<persistence-unit name="DNDN1">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider> 
-		<jta-data-source>java:jboss/datasources/DSXA1</jta-data-source>
-		<class>com.sample.model.Property</class>
+		<jta-data-source>java:jboss/DSXA1</jta-data-source>
+<!-- 		<class>com.sample.model.Property</class> -->
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.ibm.db2.jcc.DB2Driver" />
 			<property name="hibernate.show_sql" value="true" />
-			<property name="hibernate.use_sql_comments" value="true" />
-			<property name="hibernate.dialect" value="org.hibernate.dialect.DB2Dialect" />
-			 <property name="jboss.entity.manager.factory.jndi.name" value="java:/myProjectEntityManagerFactory"/> 
+<!-- 			<property name="hibernate.use_sql_comments" value="true" /> -->
+<!-- 			<property name="hibernate.dialect" value="org.hibernate.dialect.DB2Dialect" /> -->
+<!-- 			 <property name="jboss.entity.manager.factory.jndi.name" value="java:/myProjectEntityManagerFactory"/>  -->
 		</properties>
-	</persistence-unit>
+	</persistence-unit>	
 	<persistence-unit name="DNDN2">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider> 
-		<jta-data-source>java:jboss/datasources/DSXA2</jta-data-source>
-		<class>com.sample.model.Property</class>
+		<jta-data-source>java:jboss/DSXA2</jta-data-source>
+<!-- 		<class>com.sample.model.Property</class> -->
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.ibm.db2.jcc.DB2Driver" />
 			<property name="hibernate.show_sql" value="true" />
-			<property name="hibernate.use_sql_comments" value="true" />
-			<property name="hibernate.dialect" value="org.hibernate.dialect.DB2Dialect" />
-			 <property name="jboss.entity.manager.factory.jndi.name" value="java:/myProjectEntityManagerFactory"/> 
+<!-- 			<property name="hibernate.use_sql_comments" value="true" /> -->
+<!-- 			<property name="hibernate.dialect" value="org.hibernate.dialect.DB2Dialect" /> -->
+<!-- 			 <property name="jboss.entity.manager.factory.jndi.name" value="java:/myProjectEntityManagerFactory"/>  -->
 		</properties>
 	</persistence-unit>
 </persistence>  

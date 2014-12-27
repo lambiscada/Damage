@@ -62,20 +62,20 @@ public class ApiDamageRefactorLowTest {
 		List<Long> dList = initDamages();
 		String newName = "name" + (System.currentTimeMillis()%100000000);
 		long startTime = System.currentTimeMillis();
-		long ex = apiDamageRefactor.apiDamageValidationService(dList, newName, INCREMENT);
+		long ex  = apiDamageRefactor.apiDamageValidationService(dList, newName, INCREMENT);
 		long stopTime = System.currentTimeMillis();
 		long executionTime = (stopTime - startTime);
-//		 System.out.println("ApiDamageValidationService execution time:  "
-//		 + executionTime + "ms");
-//		
-//		System.out.println("ejecucion:  "+ex);
+		 System.out.println("ApiDamageValidationService execution time:  "
+		 + executionTime + "ms");
+		
+		System.out.println("ejecucion:  "+ex);
 
 	}
-
 	public List<Long> initDamages() throws InstanceNotFoundException {
 		List<Long> dList = new ArrayList<Long>();
-		for (int i = 1; i <= ROWS; i++)
-			dList.add((long) i);
+		dList.add((long) 1);
+//		for (int i = 1; i <= ROWS; i++)
+//			dList.add((long) i);
 
 		return dList;
 	}

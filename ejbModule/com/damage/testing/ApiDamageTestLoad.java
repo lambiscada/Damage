@@ -1,32 +1,23 @@
 package com.damage.testing;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.transaction.SystemException;
 
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.protocol.java.sampler.AbstractJavaSamplerClient;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
-import org.apache.jmeter.threads.JMeterContext;
-import org.apache.jmeter.threads.JMeterThread;
 import org.apache.jmeter.samplers.SampleResult;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 import com.damage.damageService.ValidationService;
 import com.damage.exception.InstanceNotFoundException;
 import com.damage.exception.NotValidDamageException;
-import com.damage.model.Damage;
 import com.damage.model.DamageDaoN;
 import com.damage.process.ApiDamageI;
-import com.damage.process.ApiDamageRefactorI;
 
 public class ApiDamageTestLoad extends AbstractJavaSamplerClient {
 	private static Context initialContext;
@@ -34,23 +25,27 @@ public class ApiDamageTestLoad extends AbstractJavaSamplerClient {
 	private long damage1, damage2;
 	private ValidationService validationService;
 	private final long INCREMENT = 200;
-	private final int ROWS = 50;
 	private DamageDaoN damageDao;
 	private List<Long> dList;
+	private long num;
 
 	public ApiDamageTestLoad() {
 		super();
 	}
-
+	
 	@Override
-	public void setupTest(JavaSamplerContext context) {
-
+	public Arguments getDefaultParameters() {
+		Arguments defaultParamenters = new Arguments();
+		defaultParamenters.addArgument("NUM", "${_threadNum}");
+		return defaultParamenters;
+		
 	}
 
 	public SampleResult runTest(JavaSamplerContext context) {
 		SampleResult result = new SampleResult();
 		Properties properties = new Properties();
 		properties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
+		num = context.getIntParameter("NUM");
 		try {
 			initialContext = new InitialContext(properties);
 		} catch (NamingException e1) {
@@ -84,7 +79,7 @@ public class ApiDamageTestLoad extends AbstractJavaSamplerClient {
 		result.sampleStart();
 		try {
 			String newName = "name" + (System.currentTimeMillis() % 100000000);
-			apiDamage.apiDamageValidationService(dList, newName, INCREMENT, null);
+			apiDamage.apiDamageValidationService(dList, newName, INCREMENT);
 
 		} catch (InterruptedException | NotValidDamageException
 				| InstanceNotFoundException e) {
@@ -99,9 +94,7 @@ public class ApiDamageTestLoad extends AbstractJavaSamplerClient {
 
 	public List<Long> initDamages() throws InstanceNotFoundException {
 		List<Long> dList = new ArrayList<Long>();
-		for (int i = 1; i <= ROWS; i++)
-			dList.add((long) i);
-
+		dList.add(num);
 		return dList;
 	}
 }

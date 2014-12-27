@@ -32,21 +32,26 @@ public class ApiDamageRefactorLowTestLoad extends AbstractJavaSamplerClient {
 	private final int ROWS = 50;
 	private List<Long> dList;
 	private final long INCREMENT = 200;
+	private long num;
+	
 
 	public ApiDamageRefactorLowTestLoad() {
 		super();
 	}
 
 	@Override
-	public void setupTest(JavaSamplerContext context) {
-
+	public Arguments getDefaultParameters() {
+		Arguments defaultParamenters = new Arguments();
+		defaultParamenters.addArgument("NUM", "${_threadNum}");
+		return defaultParamenters;
+		
 	}
 
 	public SampleResult runTest(JavaSamplerContext context) {
 		SampleResult result = new SampleResult();
 		Properties properties = new Properties();
 		properties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
-
+		num = context.getIntParameter("NUM");
 		try {
 			initialContext = new InitialContext(properties);
 		} catch (NamingException e1) {
@@ -80,9 +85,7 @@ public class ApiDamageRefactorLowTestLoad extends AbstractJavaSamplerClient {
 		result.sampleStart();
 		try {
 			String newName = "name" + (System.currentTimeMillis() % 100000000);
-//			executionTime = apiDamageRefactor.apiDamageValidationService(
-//					dList.get(0), dList.get(0), newName, INCREMENT);
-			executionTime = apiDamageRefactor.apiDamageValidationService(dList, newName, INCREMENT);
+			apiDamageRefactor.apiDamageValidationService(dList, newName, INCREMENT);
 		} catch (InterruptedException | NotValidDamageException
 				| InstanceNotFoundException | SystemException e) {
 			e.printStackTrace();
@@ -96,19 +99,8 @@ public class ApiDamageRefactorLowTestLoad extends AbstractJavaSamplerClient {
 	
 	public List<Long> initDamages() throws InstanceNotFoundException {
 		List<Long> dList = new ArrayList<Long>();
-		for (int i = 1; i <= ROWS; i++)
-			dList.add((long) i);
-
+		dList.add(num);
 		return dList;
-	}
-	
-
-	@Override
-	public Arguments getDefaultParameters() {
-
-		Arguments params = new Arguments();
-
-		return params;
 	}
 
 }

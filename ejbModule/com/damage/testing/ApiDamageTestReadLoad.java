@@ -90,9 +90,7 @@ public class ApiDamageTestReadLoad extends AbstractJavaSamplerClient {
 
 	public List<Long> initDamages() throws InstanceNotFoundException {
 		List<Long> dList = new ArrayList<Long>();
-		for (int i=ROWSINI; i<=ROWSFIN; i++)
-			dList.add((long) i);
-		
+		dList.add((long) 1);
 		return dList;
 	}
 

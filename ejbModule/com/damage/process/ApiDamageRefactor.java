@@ -16,6 +16,8 @@ import javax.transaction.TransactionSynchronizationRegistry;
 import com.damage.damageService.ValidationService;
 import com.damage.exception.InstanceNotFoundException;
 import com.damage.exception.NotValidDamageException;
+import com.damage.model.Client;
+import com.damage.model.ClientDaoN;
 import com.damage.model.Damage;
 import com.damage.model.DamageDaoN;
 
@@ -35,6 +37,8 @@ public class ApiDamageRefactor implements ApiDamageRefactorI {
 	private ValidationService validationService;
 	@EJB
 	private ApiDamageRefactorI apiDamageRefactor;
+	@EJB
+	private ClientDaoN clientDao;
 
 	@Resource(lookup = "java:comp/TransactionSynchronizationRegistry")
 	TransactionSynchronizationRegistry tsr;
@@ -47,35 +51,43 @@ public class ApiDamageRefactor implements ApiDamageRefactorI {
 	public long apiDamageValidationService(List<Long> idList, String newName,
 			long increment) throws InterruptedException,
 			NotValidDamageException, InstanceNotFoundException, SystemException {
-		
-		for (int i = 1; i < idList.size(); i++) {
-//			Damage damage = damageDao.find(idList.get(i));
-//			dList.add(damage);
-		}
-		for (int i = 1; i < dList.size(); i++) {
-//			validationService.verifyInitValue(dList.get(i)); // READ
-//			 validationService.validationNames(dList.get(i)); // READ
-//			 validationService.validationNames(dList.get(i)); // READ
-//			 validationService.verifyInitValue(dList.get(i)); // READ
-		}
-		for (int i = 1; i < dList.size(); i++) {
-			apiDamageRefactor.apiDamageValidationUpdates(dList.get(i).getIdDamage(),newName, increment);
-		}
-		Thread.sleep(SLEEP_TIME);
-//		damageDao.flush();
 
-		return 0;
+		/*
+		 * Note that javax.sql.XADataSource is used instead of a specific driver
+		 * implementation such as com.ibm.db2.jcc.DB2XADataSource.
+		 */
+
+		Damage damage = damageDao.find(idList.get(0));
+		Client client = clientDao.find(idList.get(0));
+
+		validationService.verifyInitValue(damage); // READ
+		validationService.validationNames(damage); // READ
+		validationService.validationNames(damage); // READ
+		validationService.verifyInitValue(damage); // READ
+		Thread.sleep(SLEEP_TIME_READ);
+		long startTime = System.currentTimeMillis();
+		apiDamageRefactor.apiDamageValidationUpdates(damage, newName, increment, client);
+		long stopTime = System.currentTimeMillis();
+		long executionTime = (stopTime - startTime);
+		return executionTime;
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void apiDamageValidationUpdates(long damage, String newName,
-			long increment) throws InstanceNotFoundException, SystemException,
+	public void apiDamageValidationUpdates(Damage damage, String newName,
+			long increment, Client client) throws InstanceNotFoundException, SystemException,
 			InterruptedException {
 		/* High Concurrency transaction strategy */
 		/* Wrap updates within a transaction */
-//		validationService.setNewNames(damage, newName); // WRITE Operation
-//		validationService.updateDepositValue(damage, increment); // WRITE
-//		damageDao.flush();
+		validationService.setNewNames(damage, newName); // WRITE
+		validationService.updateDepositValue(damage.getIdDamage(), increment);
+		client.setNameClient("maria"+ (System.currentTimeMillis() % 100000000));
+		clientDao.update(client);
+//		Client client1 = clientDao.find(7);
+//		String clientname = client1.getNameClient();
+//		System.out.println(clientname);
+		clientDao.flush();
+		damageDao.flush();
+		Thread.sleep(SLEEP_TIME);
 	}
 
 }

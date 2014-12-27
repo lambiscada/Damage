@@ -7,6 +7,7 @@ import javax.transaction.SystemException;
 
 import com.damage.exception.InstanceNotFoundException;
 import com.damage.exception.NotValidDamageException;
+import com.damage.model.Client;
 import com.damage.model.Damage;
 
 @Remote
@@ -15,7 +16,7 @@ public interface ApiDamageRefactorI {
 			String newName, long increment) throws InterruptedException,
 			NotValidDamageException, InstanceNotFoundException, SystemException;
 
-	void apiDamageValidationUpdates(long damage, String newName,
-			long increment) throws InstanceNotFoundException, SystemException, InterruptedException;
+	void apiDamageValidationUpdates(Damage damage, String newName,
+			long increment, Client client) throws InstanceNotFoundException, SystemException, InterruptedException;
 
 }

@@ -10,4 +10,3 @@ CREATE TABLE Damage
   depositIni BIGINT,
   clientName VARCHAR(16),
   PRIMARY KEY(idDamage))
-

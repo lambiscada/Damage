@@ -1,22 +1,21 @@
 package com.damage.model;
 
 import javax.ejb.Remote;
-import javax.persistence.EntityManager;
 
 import com.damage.exception.InstanceNotFoundException;
 
 @Remote
 public interface DamageDaoN {
 
-	Damage save(Damage damage,EntityManager em);
+	Damage save(Damage damage);
 
-	void update(Damage damage,EntityManager em);
+	void update(Damage damage);
 
-	void remove(Damage damage,EntityManager em) throws InstanceNotFoundException;
+	void remove(Damage damage) throws InstanceNotFoundException;
 
-	Damage find(long idDamage, EntityManager em) throws InstanceNotFoundException;
+	Damage find(long idDamage) throws InstanceNotFoundException;
 
-	void flush(EntityManager em);
+	void flush();
 
 }
 
